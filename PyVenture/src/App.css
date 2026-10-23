@@ -1,0 +1,168 @@
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Quicksand:wght@500;700&display=swap");
+
+:root {
+  --nav: #1f3566;
+  --sky-top: #3e4f7c;
+  --sky-bottom: #8b95b8;
+  --yellow: #f3e96a;
+  --peach: #f5b896;
+  --blue: #4f6fb8;
+  --pill: #6f9de0;
+  --font-display: "Orbitron", "Arial Black", sans-serif;
+  --font-body: "Quicksand", "Segoe UI", sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body, #root { height: 100%; }
+body { font-family: var(--font-body); color: #fff; }
+
+.page {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  background: linear-gradient(180deg, var(--sky-top) 0%, var(--sky-bottom) 100%);
+}
+
+/* ---------- Navbar ---------- */
+.navbar {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 36px 30px;
+  background: var(--nav);
+  clip-path: polygon(0 0, 100% 0, 100% 78%, 62% 78%, 58% 100%, 34% 100%, 30% 78%, 0 78%);
+}
+.brand { display: flex; flex-direction: column; gap: 4px; }
+.brand-title {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 1.7rem;
+  letter-spacing: 2px;
+  background: linear-gradient(90deg, var(--peach), var(--yellow) 60%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.brand-sub {
+  font-family: var(--font-display);
+  font-size: 0.55rem;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #8fa6dd;
+}
+.nav-actions { display: flex; gap: 14px; }
+
+/* ---------- Tombol ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 18px;
+  border-radius: 999px;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 1rem;
+  color: #fff;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.15s, filter 0.15s;
+}
+.btn:hover { transform: translateY(-2px); filter: brightness(1.1); }
+.btn:focus-visible { outline: 3px solid var(--yellow); outline-offset: 3px; }
+.btn-outline { border: 1.5px solid #fff; background: transparent; }
+.btn-solid { background: var(--pill); }
+.btn-start {
+  background: rgba(60, 75, 120, 0.7);
+  border: 1.5px solid rgba(255, 255, 255, 0.35);
+  border-radius: 12px;
+  padding: 8px 16px;
+  font-size: 0.95rem;
+}
+
+/* ---------- Hero ---------- */
+.hero {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  min-height: 70vh;
+  padding: 40px 48px 160px;
+}
+.hero-text { max-width: 560px; position: relative; z-index: 3; }
+
+.logo {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(2.6rem, 6vw, 4.2rem);
+  letter-spacing: 3px;
+  line-height: 1;
+  background: linear-gradient(90deg, var(--peach), var(--yellow) 55%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: none;
+  filter: drop-shadow(3px 3px 0 rgba(0, 0, 0, 0.35));
+}
+.logo-sub {
+  margin: 4px 0 10px;
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #c9d3ee;
+}
+.headline {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(1.9rem, 4.6vw, 3.2rem);
+  line-height: 1;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #fff;
+  text-shadow: 3px 3px 0 rgba(0, 0, 0, 0.45);
+}
+.headline .accent { color: var(--blue); }
+.lead {
+  margin: 16px 0 18px 28px;
+  max-width: 360px;
+  font-size: 0.95rem;
+  line-height: 1.35;
+  color: #fff;
+}
+.btn-start { margin-left: 28px; }
+
+/* ---------- Gunung & tanah ---------- */
+.mountain {
+  position: absolute;
+  right: 0;
+  bottom: 120px;
+  width: min(48vw, 520px);
+  height: auto;
+  z-index: 1;
+}
+.ground {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 130px;
+  z-index: 2;
+}
+
+/* ---------- Responsif ---------- */
+@media (max-width: 720px) {
+  .navbar { padding: 14px 18px 26px; }
+  .brand-title { font-size: 1.3rem; }
+  .btn { padding: 6px 12px; font-size: 0.85rem; }
+  .hero { padding: 32px 20px 160px; }
+  .mountain { opacity: 0.55; width: 80vw; }
+  .lead, .btn-start { margin-left: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .btn { transition: none; }
+}
