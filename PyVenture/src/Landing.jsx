@@ -1,4 +1,4 @@
-import "./App.css";
+import "./Landing.css";
 
 /* ---------- Gunung pixel art (dibuat dari array tinggi kolom) ---------- */
 const HEIGHTS = [1,2,3,4,5,6,7,9,10,12,13,15,17,19,21,22,24,23,21,22,20,18,17,15,13,12,10,9,7,6,4,3,2];
@@ -87,7 +87,7 @@ export default function App() {
     <div className="page">
       <header className="navbar">
         <div className="brand">
-          <span className="brand-title">PyVenture</span>
+          <span className="brand-title">PYVENTURE</span>
           <span className="brand-sub">
             Gamified Python
             <br />
@@ -106,12 +106,10 @@ export default function App() {
 
       <main className="hero">
         <div className="hero-text">
-          <h1 className="logo">PyVenture</h1>
+          <h1 className="logo">PYVENTURE</h1>
           <p className="logo-sub">Gamified Python Learning Platform</p>
           <h2 className="headline">
-            Code your way to
-            <br />
-            the <span className="accent">next level</span>
+            Code your way to the <span className="accent">next level</span>
           </h2>
           <p className="lead">
             Learn Python, complete exciting quest, and unblock new challenges in

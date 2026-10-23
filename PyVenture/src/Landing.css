@@ -1,4 +1,24 @@
-@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Quicksand:wght@500;700&display=swap");
+@font-face {
+  font-family: "Cyberank";
+  src: url("./assets/font/Cyberank.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Upheaval";
+  src: url("./assets/font/upheavtt.ttf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Coolvetica";
+  src: url("./assets/font/Coolvetica.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
 
 :root {
   --nav: #1f3566;
@@ -8,8 +28,9 @@
   --peach: #f5b896;
   --blue: #4f6fb8;
   --pill: #6f9de0;
-  --font-display: "Orbitron", "Arial Black", sans-serif;
-  --font-body: "Quicksand", "Segoe UI", sans-serif;
+  --font-display: "Cyberank", "Arial Black", sans-serif;   /* logo & headline */
+  --font-pixel: "Upheaval", "Arial Black", sans-serif;      /* subjudul kecil */
+  --font-body: "Coolvetica", "Segoe UI", sans-serif;        /* teks & tombol */
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -37,7 +58,6 @@ body { font-family: var(--font-body); color: #fff; }
 .brand { display: flex; flex-direction: column; gap: 4px; }
 .brand-title {
   font-family: var(--font-display);
-  font-weight: 900;
   font-size: 1.7rem;
   letter-spacing: 2px;
   background: linear-gradient(90deg, var(--peach), var(--yellow) 60%);
@@ -46,9 +66,8 @@ body { font-family: var(--font-body); color: #fff; }
   color: transparent;
 }
 .brand-sub {
-  font-family: var(--font-display);
+  font-family: var(--font-pixel);
   font-size: 0.55rem;
-  font-weight: 700;
   line-height: 1.2;
   letter-spacing: 1.5px;
   text-transform: uppercase;
@@ -64,7 +83,7 @@ body { font-family: var(--font-body); color: #fff; }
   padding: 8px 18px;
   border-radius: 999px;
   font-family: var(--font-body);
-  font-weight: 700;
+  font-weight: normal;
   font-size: 1rem;
   color: #fff;
   text-decoration: none;
@@ -96,7 +115,6 @@ body { font-family: var(--font-body); color: #fff; }
 
 .logo {
   font-family: var(--font-display);
-  font-weight: 900;
   font-size: clamp(2.6rem, 6vw, 4.2rem);
   letter-spacing: 3px;
   line-height: 1;
@@ -109,16 +127,14 @@ body { font-family: var(--font-body); color: #fff; }
 }
 .logo-sub {
   margin: 4px 0 10px;
-  font-family: var(--font-display);
+  font-family: var(--font-pixel);
   font-size: 0.7rem;
-  font-weight: 700;
   letter-spacing: 2px;
   text-transform: uppercase;
   color: #c9d3ee;
 }
 .headline {
   font-family: var(--font-display);
-  font-weight: 900;
   font-size: clamp(1.9rem, 4.6vw, 3.2rem);
   line-height: 1;
   letter-spacing: 1px;
