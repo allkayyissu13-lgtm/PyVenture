@@ -15,7 +15,7 @@ function Mountain() {
       if (x < 17) color = n < 3 ? "#3f8fa6" : n < 4 ? "#2f6f86" : "#255a70";
       else if (x < 17) color = n < 3 ? "#2a5d73" : n < 4 ? "#146f8b" : "#1f4e63";
       else color = n < 2 ? "#e3a06f" : n < 4 ? "#c8745a" : "#8f4a52";
-      if (depth ===1 && x < 17) color = "#5fb0c0";
+      if (depth === 1 && x < 17) color = "#5fb0c0";
       cells.push(
         <rect key={`${x}-${y}`} x={x} y={25 - y - 1} width="1.02" height="1.02" fill={color} />
       );
@@ -97,7 +97,7 @@ export default function Landing() {
         </div>
         <nav className="nav-actions">
           <Link to="/login" className="btn btn-outline">
-    <       UserIcon /> Login
+            <UserIcon /> Login
           </Link>
           <Link to="/register" className="btn btn-solid">
             <UserPlusIcon /> Register
@@ -116,9 +116,9 @@ export default function Landing() {
             Learn Python, complete exciting quest and unblock new challenges in
             your coding&nbsp;&nbsp;journey
           </p>
-          <a href="/register" className="btn btn-start">
+          <Link to="/register" className="btn btn-start">
             Get Started <EnterIcon />
-          </a>
+          </Link>
         </div>
         <Mountain />
       </main>
