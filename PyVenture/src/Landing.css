@@ -51,20 +51,19 @@ body { font-family: var(--font-body); color: #fff; }
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 18px 36px 30px;
+  padding: 16px 36px 30px;
   background: var(--nav);
   clip-path: polygon(
-    0 0, 100% 0, 100% 100%,
-    67% 100%, 63% 80%,
-    37% 80%, 33% 100%,
-    0 100%);
-  
+    0 0, 100% 0, 100% 90%,
+    63% 90%, 58% 70%,
+    37% 70%, 32% 90%,
+    0 90%);
 }
 .brand { display: flex; flex-direction: column; gap: 4px; }
 .brand-title {
   font-family: var(--font-display);
   font-size: 1.7rem;
-  letter-spacing: 2px;
+  letter-spacing: 1px;
   background: linear-gradient(90deg, var(--peach), var(--yellow) 60%);
   -webkit-background-clip: text;
   background-clip: text;
@@ -72,8 +71,8 @@ body { font-family: var(--font-body); color: #fff; }
 }
 .brand-sub {
   font-family: var(--font-pixel);
-  font-size: 0.55rem;
-  line-height: 1.2;
+  font-size: 1.00rem; 
+  line-height: 0.7;
   letter-spacing: 1.5px;
   text-transform: uppercase;
   color: #8fa6dd;
@@ -133,7 +132,7 @@ body { font-family: var(--font-body); color: #fff; }
 .logo-sub {
   margin: 4px 0 10px;
   font-family: var(--font-pixel);
-  font-size: 0.7rem;
+  font-size: 1.5rem;
   letter-spacing: 2px;
   text-transform: uppercase;
   color: #c9d3ee;
@@ -149,7 +148,7 @@ body { font-family: var(--font-body); color: #fff; }
 }
 .headline .accent { color: var(--blue); }
 .lead {
-  margin: 16px 0 18px 28px;
+  margin: 8px 0 18px 6px;
   max-width: 360px;
   font-size: 0.95rem;
   line-height: 1.35;
@@ -160,9 +159,9 @@ body { font-family: var(--font-body); color: #fff; }
 /* ---------- Gunung & tanah ---------- */
 .mountain {
   position: absolute;
-  right: 0;
-  bottom: 120px;
-  width: min(48vw, 520px);
+  right: 30px;
+  bottom: 70px;
+  width: min(49vw, 630px);
   height: auto;
   z-index: 1;
 }
