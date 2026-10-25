@@ -1,0 +1,251 @@
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;700&display=swap");
+
+/* Semua class berawalan verify- agar tidak bentrok dengan halaman lain */
+.verify-page {
+  --v-ink: #e6edf7;
+  --v-text: #aecbee;
+  --v-ice: #7fb5e8;
+  --v-line: rgba(255, 255, 255, 0.08);
+  --v-box-1: #2f3d54;
+  --v-box-2: #263348;
+  --v-peach-1: #ffb396;
+  --v-peach-2: #ffd9cc;
+  --v-sans: "Space Grotesk", "Segoe UI", Arial, sans-serif;
+  --v-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 16px;
+  background: linear-gradient(180deg, #2a5f8c 0%, #17375d 45%, #0b1830 100%);
+  font-family: var(--v-sans);
+  color: var(--v-ink);
+}
+
+.verify-page *,
+.verify-page *::before,
+.verify-page *::after {
+  box-sizing: border-box;
+}
+
+/* ---------- Kartu ---------- */
+.verify-card {
+  width: min(100%, 880px);
+  min-height: 460px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 24px;
+  text-align: center;
+  background: linear-gradient(180deg, #131c2e 0%, #141b2c 100%);
+  border-radius: 8px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4);
+}
+
+/* ---------- Brand ---------- */
+.verify-brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.verify-brand-name {
+  font-size: 22px;
+  font-weight: 500;
+  color: #fff;
+}
+
+.verify-brand-sub {
+  font-family: var(--v-mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--v-ice);
+}
+
+/* ---------- Ikon ---------- */
+.verify-icon {
+  width: 104px;
+  height: 104px;
+  margin-top: 16px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #e3e3e3;
+}
+
+.verify-icon-svg {
+  width: 62px;
+  height: 62px;
+}
+
+/* ---------- Teks ---------- */
+.verify-title {
+  margin: 16px 0 0;
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--v-ink);
+}
+
+.verify-desc {
+  margin: 10px 0 0;
+  font-family: var(--v-mono);
+  font-size: 11px;
+  line-height: 1.5;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--v-text);
+}
+
+/* ---------- Form ---------- */
+.verify-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.verify-code {
+  display: flex;
+  gap: 9px;
+  margin-top: 24px;
+}
+
+.verify-box {
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  text-align: center;
+  background: linear-gradient(180deg, var(--v-box-1), var(--v-box-2));
+  border: 1px solid var(--v-line);
+  border-radius: 8px;
+  color: #fff;
+  font-family: var(--v-mono);
+  font-size: 20px;
+  font-weight: 700;
+  caret-color: var(--v-peach-1);
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.verify-box:focus-visible {
+  border-color: var(--v-ice);
+  box-shadow: 0 0 0 3px rgba(127, 181, 232, 0.28);
+}
+
+.verify-box[aria-invalid="true"] {
+  border-color: #ff9c85;
+}
+
+.verify-error {
+  margin: 12px 0 0;
+  font-family: var(--v-mono);
+  font-size: 11px;
+  color: #ff9c85;
+}
+
+.verify-submit {
+  width: 100%;
+  max-width: 330px;
+  height: 46px;
+  margin-top: 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border: 0;
+  border-radius: 8px;
+  background: linear-gradient(90deg, var(--v-peach-1), var(--v-peach-2));
+  color: #2a140c;
+  font-family: var(--v-sans);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: filter 0.15s ease, transform 0.1s ease;
+}
+
+.verify-submit:hover {
+  filter: brightness(1.05);
+}
+
+.verify-submit:active {
+  transform: translateY(1px);
+}
+
+.verify-submit:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
+
+/* ---------- Kirim ulang ---------- */
+.verify-resend {
+  margin: 12px 0 0;
+  font-family: var(--v-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--v-text);
+}
+
+.verify-resend-btn {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--v-ice);
+  cursor: pointer;
+}
+
+.verify-resend-btn:hover {
+  text-decoration: underline;
+}
+
+.verify-resend-btn:focus-visible,
+.verify-brand:focus-visible {
+  outline: 2px solid var(--v-ice);
+  outline-offset: 3px;
+}
+
+/* ---------- Responsif ---------- */
+@media (max-width: 420px) {
+  .verify-card {
+    padding: 32px 16px;
+  }
+
+  .verify-title,
+  .verify-brand-name {
+    font-size: 20px;
+  }
+
+  .verify-desc {
+    font-size: 10px;
+  }
+
+  .verify-code {
+    gap: 6px;
+  }
+
+  .verify-box {
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 340px) {
+  .verify-box {
+    width: 36px;
+    height: 36px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .verify-box,
+  .verify-submit {
+    transition: none;
+  }
+}

@@ -97,11 +97,11 @@ export default function AuthPage({ mode = "login" }) {
     if (isLogin) {
       // TODO: ganti dengan logika login (API) kamu
       console.log({ email, password, remember });
-      navigate("/"); // sementara: kembali ke Landing
+      navigate("/dashboard"); // setelah login, masuk ke dashboard
     } else {
       // TODO: ganti dengan logika register (API) kamu
       console.log({ username, email, password });
-      navigate("/login"); // setelah daftar, arahkan ke login
+      navigate("/verify", { state: { email } }); // lanjut ke verifikasi email
     }
   };
 
