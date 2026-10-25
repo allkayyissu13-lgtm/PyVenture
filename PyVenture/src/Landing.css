@@ -7,7 +7,7 @@
 }
 @font-face {
   font-family: "Upheaval";
-  src: url("./assets/font/upheavtt.ttf") format("opentype");
+  src: url("./assets/font/upheavtt.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
   font-display: swap;

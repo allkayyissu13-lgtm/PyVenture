@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import "./Landing.css";
 
 /* ---------- Gunung pixel art (dibuat dari array tinggi kolom) ---------- */
@@ -82,7 +83,7 @@ const EnterIcon = () => (
 );
 
 /* ---------- Komponen utama ---------- */
-export default function App() {
+export default function Landing() {
   return (
     <div className="page">
       <header className="navbar">
@@ -95,12 +96,12 @@ export default function App() {
           </span>
         </div>
         <nav className="nav-actions">
-          <a href="/login" className="btn btn-outline">
-            <UserIcon /> Login
-          </a>
-          <a href="/register" className="btn btn-solid">
+          <Link to="/login" className="btn btn-outline">
+    <       UserIcon /> Login
+          </Link>
+          <Link to="/register" className="btn btn-solid">
             <UserPlusIcon /> Register
-          </a>
+          </Link>
         </nav>
       </header>
 
