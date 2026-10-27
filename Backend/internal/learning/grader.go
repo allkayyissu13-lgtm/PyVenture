@@ -22,6 +22,9 @@ func Grade(ctx context.Context, runner CodeRunner, code string, tests []TestCase
 			return nil, err // masalah infrastruktur, bukan kesalahan user
 		}
 
+		res.TimeMs = max(res.TimeMs, rr.DurationMs)
+		res.MemoryKB = max(res.MemoryKB, rr.MemoryKB)
+
 		switch {
 		case rr.TimedOut:
 			tr.Status = StatusTimeout

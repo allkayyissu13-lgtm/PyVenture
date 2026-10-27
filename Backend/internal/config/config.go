@@ -4,6 +4,7 @@ package config
 import (
 	"fmt"
 	"os"
+	"runtime"
 	"strconv"
 	"time"
 )
@@ -24,7 +25,7 @@ func Load() (Config, error) {
 		DatabaseURL:   os.Getenv("DATABASE_URL"),
 		JWTSecret:     os.Getenv("JWT_SECRET"),
 		CORSOrigin:    get("CORS_ORIGIN", "http://localhost:5173"),
-		PythonBin:     get("PYTHON_BIN", "python3"),
+		PythonBin:     get("PYTHON_BIN", defaultPython()),
 		RunTimeout:    time.Duration(getInt("RUN_TIMEOUT_SECONDS", 3)) * time.Second,
 		MaxConcurrent: getInt("MAX_CONCURRENT_RUNS", 2),
 	}
@@ -49,4 +50,12 @@ func getInt(key string, def int) int {
 		return v
 	}
 	return def
+}
+
+// Di Windows perintahnya biasanya `python` (bukan `python3`).
+func defaultPython() string {
+	if runtime.GOOS == "windows" {
+		return "python"
+	}
+	return "python3"
 }

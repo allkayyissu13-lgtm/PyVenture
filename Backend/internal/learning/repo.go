@@ -6,7 +6,10 @@ import (
 	"errors"
 )
 
-var ErrNotFound = errors.New("not found")
+var (
+	ErrNotFound = errors.New("not found")
+	ErrNoHints  = errors.New("no hints")
+)
 
 type Repo struct{ DB *sql.DB }
 
@@ -19,7 +22,7 @@ func (r *Repo) List(ctx context.Context, userID, difficulty string) ([]ExerciseS
 		       COUNT(s.id) > 0 AS attempted
 		FROM exercises e
 		LEFT JOIN submissions s ON s.exercise_id = e.id AND s.profile_id = $1
-		WHERE ($2 = '' OR e.difficulty = $2)
+		WHERE e.is_public AND ($2 = '' OR e.difficulty = $2)
 		GROUP BY e.id
 		ORDER BY CASE e.difficulty WHEN 'beginner' THEN 1 WHEN 'intermediate' THEN 2 ELSE 3 END,
 		         e.order_index, e.id`, userID, difficulty)
@@ -43,9 +46,10 @@ func (r *Repo) List(ctx context.Context, userID, difficulty string) ([]ExerciseS
 func (r *Repo) BySlug(ctx context.Context, slug string) (*Exercise, error) {
 	var e Exercise
 	err := r.DB.QueryRowContext(ctx, `
-		SELECT id, slug, title, description, difficulty, starter_code
-		FROM exercises WHERE slug = $1`, slug,
-	).Scan(&e.ID, &e.Slug, &e.Title, &e.Description, &e.Difficulty, &e.StarterCode)
+		SELECT id, slug, title, description, difficulty, starter_code, input_format, output_format
+		FROM exercises WHERE slug = $1 AND is_public`, slug,
+	).Scan(&e.ID, &e.Slug, &e.Title, &e.Description, &e.Difficulty, &e.StarterCode,
+		&e.InputFormat, &e.OutputFormat)
 	if errors.Is(err, sql.ErrNoRows) {
 		return nil, ErrNotFound
 	}
@@ -100,4 +104,49 @@ func (r *Repo) SaveSubmission(ctx context.Context, userID string, exerciseID int
 		VALUES ($1, $2, $3, $4, $5, $6) RETURNING id`,
 		userID, exerciseID, code, res.Status, res.Passed, res.Total).Scan(&id)
 	return id, err
+}
+
+// HintState mengembalikan jumlah hint, dan isi hint yang sudah dibuka user.
+func (r *Repo) HintState(ctx context.Context, userID string, exerciseID int) (HintState, error) {
+	hs := HintState{Items: []Hint{}}
+	if err := r.DB.QueryRowContext(ctx,
+		`SELECT COUNT(*) FROM exercise_hints WHERE exercise_id = $1`, exerciseID).Scan(&hs.Total); err != nil {
+		return hs, err
+	}
+	rows, err := r.DB.QueryContext(ctx, `
+		SELECT h.position, h.content FROM exercise_hints h
+		WHERE h.exercise_id = $1
+		  AND h.position <= COALESCE((SELECT u.revealed FROM hint_usage u
+		                              WHERE u.profile_id = $2 AND u.exercise_id = $1), 0)
+		ORDER BY h.position`, exerciseID, userID)
+	if err != nil {
+		return hs, err
+	}
+	defer rows.Close()
+	for rows.Next() {
+		var h Hint
+		if err := rows.Scan(&h.Position, &h.Content); err != nil {
+			return hs, err
+		}
+		hs.Items = append(hs.Items, h)
+	}
+	hs.Revealed = len(hs.Items)
+	return hs, rows.Err()
+}
+
+// RevealNextHint membuka satu hint lagi (maksimal sebanyak hint yang ada).
+func (r *Repo) RevealNextHint(ctx context.Context, userID string, exerciseID int) error {
+	var total int
+	if err := r.DB.QueryRowContext(ctx,
+		`SELECT COUNT(*) FROM exercise_hints WHERE exercise_id = $1`, exerciseID).Scan(&total); err != nil {
+		return err
+	}
+	if total == 0 {
+		return ErrNoHints
+	}
+	_, err := r.DB.ExecContext(ctx, `
+		INSERT INTO hint_usage (profile_id, exercise_id, revealed) VALUES ($1, $2, 1)
+		ON CONFLICT (profile_id, exercise_id)
+		DO UPDATE SET revealed = LEAST(hint_usage.revealed + 1, $3::int)`, userID, exerciseID, total)
+	return err
 }

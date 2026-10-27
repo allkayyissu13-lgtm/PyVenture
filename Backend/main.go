@@ -14,6 +14,7 @@ import (
 
 	"pyventure/internal/auth"
 	"pyventure/internal/config"
+	"pyventure/internal/course"
 	"pyventure/internal/learning"
 )
 
@@ -41,13 +42,21 @@ func main() {
 
 	authSvc := &auth.Service{DB: db, Secret: []byte(cfg.JWTSecret), TTL: 72 * time.Hour}
 	runner := &learning.PythonRunner{PythonBin: cfg.PythonBin, Timeout: cfg.RunTimeout, MaxOutput: 64 << 10}
-	learningH := learning.NewHandler(&learning.Repo{DB: db}, runner, cfg.MaxConcurrent)
+	judge := learning.NewJudge(runner, cfg.MaxConcurrent) // dipakai bersama Learning & Kompetisi
+	learningRepo := &learning.Repo{DB: db}
+	courseRepo := &course.Repo{DB: db}
+	learningH := learning.NewHandler(learningRepo, judge)
+	learningH.Gate = courseRepo // latihan di stage terkunci tidak bisa dibuka / dikerjakan
+	courseH := &course.Handler{Repo: courseRepo}
 
 	mux := http.NewServeMux()
 	mux.HandleFunc("GET /healthz", func(w http.ResponseWriter, _ *http.Request) { w.Write([]byte("ok")) })
 	mux.HandleFunc("POST /api/auth/register", authSvc.Register)
 	mux.HandleFunc("POST /api/auth/login", authSvc.Login)
 	learningH.Routes(mux, authSvc.Require)
+	courseH.Routes(mux, authSvc.Require)
+	// Kompetisi & Leaderboard ditunda: paket internal/competition dan migrations/postponed/
+	// disimpan, tinggal dipasang di sini lagi nanti.
 
 	srv := &http.Server{
 		Addr:              ":" + cfg.Port,

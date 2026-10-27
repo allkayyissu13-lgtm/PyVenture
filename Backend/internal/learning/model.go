@@ -25,13 +25,40 @@ type SampleTest struct {
 }
 
 type Exercise struct {
-	ID          int          `json:"id"`
-	Slug        string       `json:"slug"`
-	Title       string       `json:"title"`
-	Description string       `json:"description"`
-	Difficulty  string       `json:"difficulty"`
-	StarterCode string       `json:"starter_code"`
-	Samples     []SampleTest `json:"samples"`
+	ID           int          `json:"id"`
+	Slug         string       `json:"slug"`
+	Title        string       `json:"title"`
+	Description  string       `json:"description"`
+	Difficulty   string       `json:"difficulty"`
+	StarterCode  string       `json:"starter_code"`
+	InputFormat  string       `json:"input_format"`
+	OutputFormat string       `json:"output_format"`
+	Samples      []SampleTest `json:"samples"`
+	Hints        HintState    `json:"hints"`
+}
+
+type Hint struct {
+	Position int    `json:"position"`
+	Content  string `json:"content"`
+}
+
+// HintState = hint yang SUDAH dibuka user (tombol "Hint Clue (1/3)").
+type HintState struct {
+	Total    int    `json:"total"`
+	Revealed int    `json:"revealed"`
+	Items    []Hint `json:"items"`
+}
+
+// RunResponse = isi panel Terminal untuk tombol "Jalankan Kode".
+type RunResponse struct {
+	Stdin    string  `json:"stdin"`
+	Stdout   string  `json:"stdout"`
+	Stderr   string  `json:"stderr"`
+	ExitCode int     `json:"exit_code"`
+	TimedOut bool    `json:"timed_out"`
+	TimeMs   int64   `json:"time_ms"`
+	MemoryKB int64   `json:"memory_kb"`
+	Expected *string `json:"expected,omitempty"` // hanya jika memakai contoh test bawaan
 }
 
 type TestCase struct {
@@ -55,5 +82,7 @@ type SubmitResult struct {
 	Status       string       `json:"status"`
 	Passed       int          `json:"passed"`
 	Total        int          `json:"total"`
+	TimeMs       int64        `json:"time_ms"`   // terlama di antara semua test
+	MemoryKB     int64        `json:"memory_kb"` // terbesar di antara semua test
 	Results      []TestResult `json:"results"`
 }

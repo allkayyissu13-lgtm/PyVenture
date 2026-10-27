@@ -7,15 +7,28 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"runtime"
 	"strings"
 	"time"
 )
 
 type RunResult struct {
-	Stdout   string
-	Stderr   string
-	ExitCode int
-	TimedOut bool
+	Stdout     string
+	Stderr     string
+	ExitCode   int
+	TimedOut   bool
+	DurationMs int64 // lama proses berjalan (termasuk start interpreter)
+	MemoryKB   int64 // puncak memori (RSS); 0 jika OS tidak mendukung (hanya Linux)
+}
+
+// cleanEnv: environment minimal untuk kode user (JWT_SECRET / DATABASE_URL tidak ikut).
+func cleanEnv() []string {
+	env := []string{"PATH=" + os.Getenv("PATH")}
+	if runtime.GOOS == "windows" {
+		// Python di Windows gagal start tanpa SYSTEMROOT.
+		env = append(env, "SYSTEMROOT="+os.Getenv("SYSTEMROOT"))
+	}
+	return env
 }
 
 // CodeRunner dibuat interface supaya grader bisa diuji dengan runner palsu,
@@ -50,7 +63,7 @@ func (p *PythonRunner) Run(ctx context.Context, code, stdin string) (RunResult, 
 	// -X utf8 : output selalu UTF-8
 	cmd := exec.CommandContext(runCtx, p.PythonBin, "-I", "-X", "utf8", "main.py")
 	cmd.Dir = dir
-	cmd.Env = []string{"PATH=" + os.Getenv("PATH")} // jangan bocorkan JWT_SECRET / DATABASE_URL ke kode user
+	cmd.Env = cleanEnv()
 	cmd.Stdin = strings.NewReader(stdin)
 	cmd.WaitDelay = 500 * time.Millisecond
 
@@ -58,13 +71,17 @@ func (p *PythonRunner) Run(ctx context.Context, code, stdin string) (RunResult, 
 	stderr := &limitedBuffer{max: p.MaxOutput}
 	cmd.Stdout, cmd.Stderr = stdout, stderr
 
+	start := time.Now()
 	runErr := cmd.Run()
+	elapsed := time.Since(start)
 
 	if ctx.Err() != nil { // klien membatalkan request
 		return RunResult{}, ctx.Err()
 	}
 	res := RunResult{
-		Stdout: stdout.String(),
+		DurationMs: elapsed.Milliseconds(),
+		MemoryKB:   maxRSSKB(cmd.ProcessState),
+		Stdout:     stdout.String(),
 		// Path temp di traceback tidak berguna bagi user.
 		Stderr: strings.ReplaceAll(stderr.String(), dir+string(filepath.Separator), ""),
 	}
