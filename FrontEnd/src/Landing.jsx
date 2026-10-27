@@ -1,7 +1,8 @@
+import { Link } from "react-router-dom";
 import "./Landing.css";
 
 /* ---------- Gunung pixel art (dibuat dari array tinggi kolom) ---------- */
-const HEIGHTS = [1,2,3,4,5,6,7,9,10,12,13,15,17,19,21,22,24,23,21,22,20,18,17,15,13,12,10,9,7,6,4,3,2];
+const HEIGHTS = [1,3,4,5,7,8,11,15,20,21,22,23,24,23,22,21,20,21,22,23,24,23,22,21,20,15,11,8,7,5,4,3,1];
 const noise = (x, y) => (x * 7 + y * 13 + x * y) % 5;
 
 function Mountain() {
@@ -11,10 +12,10 @@ function Mountain() {
       const depth = h - y; // 1 = permukaan atas
       const n = noise(x, y);
       let color;
-      if (x < 14) color = n < 2 ? "#3f8fa6" : n < 4 ? "#2f6f86" : "#255a70";
-      else if (x < 19) color = n < 2 ? "#2a5d73" : n < 4 ? "#6b3a4a" : "#1f4e63";
+      if (x < 17) color = n < 3 ? "#3f8fa6" : n < 4 ? "#2f6f86" : "#255a70";
+      else if (x < 17) color = n < 3 ? "#2a5d73" : n < 4 ? "#146f8b" : "#1f4e63";
       else color = n < 2 ? "#e3a06f" : n < 4 ? "#c8745a" : "#8f4a52";
-      if (depth === 1 && x < 14) color = "#5fb0c0";
+      if (depth === 1 && x < 17) color = "#5fb0c0";
       cells.push(
         <rect key={`${x}-${y}`} x={x} y={25 - y - 1} width="1.02" height="1.02" fill={color} />
       );
@@ -82,7 +83,7 @@ const EnterIcon = () => (
 );
 
 /* ---------- Komponen utama ---------- */
-export default function App() {
+export default function Landing() {
   return (
     <div className="page">
       <header className="navbar">
@@ -95,12 +96,12 @@ export default function App() {
           </span>
         </div>
         <nav className="nav-actions">
-          <a href="/login" className="btn btn-outline">
+          <Link to="/login" className="btn btn-outline">
             <UserIcon /> Login
-          </a>
-          <a href="/register" className="btn btn-solid">
+          </Link>
+          <Link to="/register" className="btn btn-solid">
             <UserPlusIcon /> Register
-          </a>
+          </Link>
         </nav>
       </header>
 
@@ -112,12 +113,12 @@ export default function App() {
             Code your way to the <span className="accent">next level</span>
           </h2>
           <p className="lead">
-            Learn Python, complete exciting quest, and unblock new challenges in
-            your coding journey
+            Learn Python, complete exciting quest and unblock new challenges in
+            your coding&nbsp;&nbsp;journey
           </p>
-          <a href="/register" className="btn btn-start">
+          <Link to="/register" className="btn btn-start">
             Get Started <EnterIcon />
-          </a>
+          </Link>
         </div>
         <Mountain />
       </main>
