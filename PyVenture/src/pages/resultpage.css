@@ -1,0 +1,213 @@
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap");
+
+.result-page {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 32px 16px;
+  background: linear-gradient(180deg, #36628f 0%, #2e4a70 50%, #272f42 100%);
+  font-family: "Space Grotesk", "Segoe UI", Arial, sans-serif;
+}
+
+.result-page *,
+.result-page *::before,
+.result-page *::after {
+  box-sizing: border-box;
+}
+
+.result-stage {
+  width: min(100%, 520px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ---------- Kartu (latar berbentuk V) ---------- */
+.result-card {
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+  padding: 0 28px 48px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.result-card::before {
+  content: "";
+  position: absolute;
+  inset: 42px 0 0 0;
+  z-index: -1;
+  background: linear-gradient(180deg, #aab5de 0%, #8498c8 32%, #2c5d91 100%);
+  clip-path: polygon(0 0, 50% 16%, 100% 0, 100% 100%, 0 100%);
+}
+
+.result-trophy {
+  width: 86px;
+  height: 86px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #1d273d;
+  color: #fff;
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.08);
+}
+
+.result-title {
+  margin: 10px 0 0;
+  font-size: clamp(22px, 4.4vw, 28px);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: #4a1a0e;
+}
+
+.result-sub {
+  margin: 4px 0 0;
+  font-size: 11px;
+  font-weight: 500;
+  color: #1f2540;
+}
+
+/* ---------- Hadiah ---------- */
+.result-rewards {
+  display: flex;
+  gap: 14px;
+  margin-top: 20px;
+}
+
+.result-reward {
+  width: 96px;
+  padding: 12px 6px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  background: rgba(150, 170, 220, 0.22);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 8px;
+}
+
+.result-reward svg {
+  margin-bottom: 4px;
+}
+
+.result-reward strong {
+  font-size: 14px;
+  color: #4a1a0e;
+}
+
+.result-reward span {
+  font-size: 10px;
+  font-weight: 500;
+  color: #fff;
+}
+
+/* ---------- Tabel test case ---------- */
+.result-table {
+  width: min(100%, 340px);
+  margin-top: 16px;
+  border-collapse: collapse;
+  overflow: hidden;
+  font-size: 10px;
+}
+
+.result-table thead th {
+  padding: 6px 12px;
+  background: #fff;
+  text-align: left;
+  font-weight: 700;
+  color: #111827;
+}
+
+.result-table tbody th,
+.result-table tbody td {
+  padding: 6px 12px;
+  background: #484b57;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  color: #eef1f8;
+  font-weight: 400;
+}
+
+.result-table tbody th {
+  text-align: left;
+}
+
+.result-table tbody td {
+  text-align: right;
+}
+
+/* ---------- Tombol ---------- */
+.result-actions {
+  position: relative;
+  width: 100%;
+  margin-top: -16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.result-actions.is-row {
+  flex-direction: row;
+  justify-content: center;
+  gap: 16px;
+  margin-top: -8px;
+}
+
+.result-btn {
+  width: min(100%, 250px);
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 6px;
+  background: #3d1a0e;
+  color: #fff;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.1s ease;
+}
+
+.result-btn.is-half {
+  width: 168px;
+}
+
+.result-btn:hover {
+  background: #54261a;
+}
+
+.result-btn:active {
+  transform: translateY(1px);
+}
+
+.result-btn:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
+
+@media (max-width: 460px) {
+  .result-card {
+    padding: 0 16px 44px;
+  }
+
+  .result-actions.is-row {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .result-btn.is-half {
+    width: min(100%, 250px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .result-btn {
+    transition: none;
+  }
+}
