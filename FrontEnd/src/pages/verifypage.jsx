@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
+import { verifyEmail, resendCode } from "../lib/api";
 import "./verifypage.css";
 
 const LENGTH = 6;
-const COOLDOWN = 59; // detik
+const COOLDOWN = 60; // detik
 
 const MailCheckIcon = () => (
   <svg viewBox="0 0 64 64" aria-hidden="true" className="verify-icon-svg">
@@ -29,13 +30,16 @@ const MailCheckIcon = () => (
 );
 
 export default function VerifyPage() {
-  const [digits, setDigits] = useState(Array(LENGTH).fill(""));
-  const [seconds, setSeconds] = useState(COOLDOWN);
-  const [error, setError] = useState("");
-  const inputs = useRef([]);
   const navigate = useNavigate();
   const { state } = useLocation();
-  const email = state?.email; // dikirim dari halaman register
+  const email = state?.email; // dikirim dari halaman register / login
+  const remember = state?.remember ?? true;
+
+  const [digits, setDigits] = useState(Array(LENGTH).fill(""));
+  const [seconds, setSeconds] = useState(state?.fromLogin ? 0 : COOLDOWN);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const inputs = useRef([]);
 
   // Fokus ke kotak pertama saat halaman dibuka
   useEffect(() => {
@@ -48,6 +52,8 @@ export default function VerifyPage() {
     const id = setTimeout(() => setSeconds((s) => s - 1), 1000);
     return () => clearTimeout(id);
   }, [seconds]);
+
+  if (!email) return <Navigate to="/login" replace />;
 
   // Isi kotak mulai dari index tertentu (dipakai untuk ketik, paste, dan autofill)
   const fill = (start, text) => {
@@ -101,26 +107,40 @@ export default function VerifyPage() {
     }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const code = digits.join("");
-    if (code.length < LENGTH) {
-      setError("Masukkan 6 digit kode verifikasi.");
-      inputs.current[digits.findIndex((d) => !d)]?.focus();
-      return;
-    }
-    // TODO: ganti dengan verifikasi kode (API) kamu
-    console.log({ email, code });
-    navigate("/login"); // setelah terverifikasi, arahkan ke login
-  };
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+  const code = digits.join("");
+  if (code.length < LENGTH) {
+    setError("Masukkan 6 digit kode verifikasi.");
+    inputs.current[digits.findIndex((d) => !d)]?.focus();
+    return;
+  }
 
-  const handleResend = () => {
-    // TODO: ganti dengan kirim ulang kode (API) kamu
+  setError("");
+  setLoading(true);
+  try {
+    await verifyEmail({ email, code }, remember); // sukses = langsung login
+    navigate("/dashboard", { replace: true });
+  } catch (err) {
+    setError(err.message);
     setDigits(Array(LENGTH).fill(""));
-    setError("");
+    inputs.current[0]?.focus();
+  } finally {
+    setLoading(false);
+  }
+};
+
+  const handleResend = async () => {
+  setError("");
+  try {
+    await resendCode(email);
+    setDigits(Array(LENGTH).fill(""));
     setSeconds(COOLDOWN);
     inputs.current[0]?.focus();
-  };
+  } catch (err) {
+    setError(err.message);
+  }
+};
 
   const timer = `00:${String(seconds).padStart(2, "0")}`;
 
@@ -170,8 +190,8 @@ export default function VerifyPage() {
             </p>
           )}
 
-          <button type="submit" className="verify-submit">
-            Verifikasi
+          <button type="submit" className="verify-submit" disabled={loading}>
+                  {loading ? "Memeriksa…" : "Verifikasi"}
             <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
               <path
                 d="M5 12h14M13 6l6 6-6 6"

@@ -16,7 +16,11 @@ async function post(path, body) {
   }
 
   const data = await res.json().catch(() => ({}));
-  if (!res.ok) throw new Error(data.error || "Terjadi kesalahan pada server.");
+  if (!res.ok) {
+    const err = new Error(data.error || "Terjadi kesalahan pada server.");
+    err.status = res.status; // mis. 403 = email belum diverifikasi
+    throw err;
+  }
   return data;
 }
 
@@ -28,12 +32,21 @@ function saveSession(data, remember) {
   store.setItem(SESSION_KEY, JSON.stringify({ token: data.token, user: data.user }));
 }
 
-// Backend mengembalikan { token, user } untuk register DAN login,
-// jadi setelah daftar user sudah langsung login.
-export async function register({ username, email, password }, remember = true) {
-  const data = await post("/api/auth/register", { username, email, password });
+// Register TIDAK langsung login: backend mengirim kode 6 digit ke email,
+// lalu user harus memasukkannya di halaman /verify.
+export function register({ username, email, password }) {
+  return post("/api/auth/register", { username, email, password });
+}
+
+// Kode benar -> backend mengirim { token, user }, jadi user langsung login.
+export async function verifyEmail({ email, code }, remember = true) {
+  const data = await post("/api/auth/verify", { email, code });
   saveSession(data, remember);
   return data;
+}
+
+export function resendCode(email) {
+  return post("/api/auth/resend", { email });
 }
 
 export async function login({ email, password }, remember = true) {
