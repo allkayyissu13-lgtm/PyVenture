@@ -1,4 +1,4 @@
-// Package auth: register, login, dan middleware JWT.
+// Package auth: register, verifikasi email, login, dan middleware JWT.
 // Login ditangani backend Go sendiri (bukan Supabase Auth); tabel profiles
 // menyimpan email + password_hash (bcrypt).
 package auth
@@ -7,6 +7,7 @@ import (
 	"context"
 	"database/sql"
 	"errors"
+	"log"
 	"net/http"
 	"net/mail"
 	"strings"
@@ -17,6 +18,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 
 	"pyventure/internal/httpx"
+	"pyventure/internal/mailer"
 )
 
 type ctxKey struct{}
@@ -25,6 +27,7 @@ type Service struct {
 	DB     *sql.DB
 	Secret []byte
 	TTL    time.Duration
+	Mail   mailer.Sender // pengirim email kode verifikasi
 }
 
 type User struct {
@@ -55,10 +58,15 @@ func (s *Service) Register(w http.ResponseWriter, r *http.Request) {
 		httpx.Error(w, http.StatusBadRequest, "username harus 3-30 karakter")
 		return
 	}
-	if _, err := mail.ParseAddress(req.Email); err != nil {
+	addr, err := mail.ParseAddress(req.Email)
+	if err != nil {
 		httpx.Error(w, http.StatusBadRequest, "format email tidak valid")
 		return
 	}
+	// Pakai alamatnya saja ("a@b.com"), bukan teks mentah seperti "Nama <a@b.com>",
+	// karena nilai ini dipakai sebagai tujuan email.
+	req.Email = strings.ToLower(addr.Address)
+
 	// bcrypt hanya memproses 72 byte pertama, jadi batasi di sini.
 	if n := len(req.Password); n < 8 || n > 72 {
 		httpx.Error(w, http.StatusBadRequest, "password harus 8-72 karakter")
@@ -87,7 +95,15 @@ func (s *Service) Register(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	s.respondWithToken(w, http.StatusCreated, u)
+	// Akun dibuat tapi BELUM login: token baru diberikan setelah kode diverifikasi.
+	// Kalau email gagal terkirim, akun tetap ada dan user bisa menekan "Kirim ulang kode".
+	if err := s.sendCode(r.Context(), u.ID, u.Email); err != nil {
+		log.Printf("kirim kode verifikasi gagal untuk %s: %v", u.Email, err)
+	}
+	httpx.JSON(w, http.StatusCreated, map[string]any{
+		"email":           u.Email,
+		"verify_required": true,
+	})
 }
 
 func (s *Service) Login(w http.ResponseWriter, r *http.Request) {
@@ -103,9 +119,10 @@ func (s *Service) Login(w http.ResponseWriter, r *http.Request) {
 
 	var u User
 	var hash string
+	var verified sql.NullTime
 	err := s.DB.QueryRowContext(r.Context(),
-		`SELECT id, username, email, password_hash FROM profiles WHERE email = $1`, email,
-	).Scan(&u.ID, &u.Username, &u.Email, &hash)
+		`SELECT id, username, email, password_hash, email_verified_at FROM profiles WHERE email = $1`, email,
+	).Scan(&u.ID, &u.Username, &u.Email, &hash, &verified)
 
 	// Pesan sama untuk "email tidak ada" dan "password salah" supaya
 	// penyerang tidak bisa menebak email mana yang terdaftar.
@@ -120,6 +137,11 @@ func (s *Service) Login(w http.ResponseWriter, r *http.Request) {
 	}
 	if bcrypt.CompareHashAndPassword([]byte(hash), []byte(req.Password)) != nil {
 		httpx.Error(w, http.StatusUnauthorized, invalid)
+		return
+	}
+	// Sandi benar tapi email belum diverifikasi -> 403; frontend mengarahkan ke /verify.
+	if !verified.Valid {
+		httpx.Error(w, http.StatusForbidden, "email belum diverifikasi")
 		return
 	}
 

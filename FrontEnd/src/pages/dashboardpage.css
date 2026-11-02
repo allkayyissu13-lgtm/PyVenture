@@ -680,3 +680,27 @@
     transition: none;
   }
 }
+/* ---------- Tab leaderboard interaktif ---------- */
+.dash-seg button {
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.dash-seg button:hover:not(.is-active) {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.dash-rank-list li {
+  transition: background 0.15s ease;
+}
+
+.dash-rank-list li:not(.is-me):hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dash-seg button,
+  .dash-rank-list li {
+    transition: none;
+  }
+}

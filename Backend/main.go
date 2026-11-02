@@ -16,6 +16,7 @@ import (
 	"pyventure/internal/config"
 	"pyventure/internal/course"
 	"pyventure/internal/learning"
+	"pyventure/internal/mailer"
 )
 
 func main() {
@@ -40,7 +41,7 @@ func main() {
 	}
 	cancel()
 
-	authSvc := &auth.Service{DB: db, Secret: []byte(cfg.JWTSecret), TTL: 72 * time.Hour}
+	authSvc := &auth.Service{DB: db, Secret: []byte(cfg.JWTSecret), TTL: 72 * time.Hour, Mail: mailer.FromEnv()}
 	runner := &learning.PythonRunner{PythonBin: cfg.PythonBin, Timeout: cfg.RunTimeout, MaxOutput: 64 << 10}
 	judge := learning.NewJudge(runner, cfg.MaxConcurrent) // dipakai bersama Learning & Kompetisi
 	learningRepo := &learning.Repo{DB: db}
@@ -53,6 +54,8 @@ func main() {
 	mux.HandleFunc("GET /healthz", func(w http.ResponseWriter, _ *http.Request) { w.Write([]byte("ok")) })
 	mux.HandleFunc("POST /api/auth/register", authSvc.Register)
 	mux.HandleFunc("POST /api/auth/login", authSvc.Login)
+	mux.HandleFunc("POST /api/auth/verify", authSvc.Verify)
+	mux.HandleFunc("POST /api/auth/resend", authSvc.Resend)
 	learningH.Routes(mux, authSvc.Require)
 	courseH.Routes(mux, authSvc.Require)
 	// Kompetisi & Leaderboard ditunda: paket internal/competition dan migrations/postponed/

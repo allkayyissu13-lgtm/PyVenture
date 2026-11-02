@@ -1,0 +1,118 @@
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;700&display=swap");
+
+.nv {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 10px 20px;
+  background: #0f1b30;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  font-family: "Space Grotesk", "Segoe UI", Arial, sans-serif;
+  box-sizing: border-box;
+}
+
+.nv *,
+.nv *::before,
+.nv *::after {
+  box-sizing: border-box;
+}
+
+.nv-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+  text-decoration: none;
+}
+
+.nv-tabs {
+  display: flex;
+  gap: 4px;
+}
+
+.nv-tab {
+  padding: 7px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #c3cde0;
+  text-decoration: none;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.nv-tab:hover {
+  color: #fff;
+}
+
+.nv-tab.is-active {
+  background: #243250;
+  color: #fff;
+}
+
+.nv-search {
+  margin-left: auto;
+  width: min(100%, 300px);
+  height: 32px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 12px;
+  background: #0a1424;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  color: #6e7f99;
+}
+
+.nv-search:focus-within {
+  border-color: #7fb5e8;
+  box-shadow: 0 0 0 3px rgba(127, 181, 232, 0.22);
+}
+
+.nv-search input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  background: none;
+  color: #e6edf7;
+  font-family: "JetBrains Mono", ui-monospace, Consolas, monospace;
+  font-size: 10px;
+  outline: none;
+}
+
+.nv-search input::placeholder {
+  color: #5b6a82;
+}
+
+.nv-brand:focus-visible,
+.nv-tab:focus-visible {
+  outline: 2px solid #7fb5e8;
+  outline-offset: 2px;
+}
+
+@media (max-width: 760px) {
+  .nv {
+    flex-wrap: wrap;
+  }
+
+  .nv-search {
+    order: 5;
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .nv-tabs {
+    overflow-x: auto;
+  }
+
+  .nv-tab {
+    white-space: nowrap;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nv-tab {
+    transition: none;
+  }
+}
