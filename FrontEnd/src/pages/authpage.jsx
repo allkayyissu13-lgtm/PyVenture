@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { login, register } from "../lib/api";
 import "./authpage.css";
+
 
 /* ---------- Ikon ---------- */
 const Svg = ({ children, ...props }) => (
@@ -90,20 +92,35 @@ export default function AuthPage({ mode = "login" }) {
   const [password, setPassword] = useState("");
   const [remember, setRemember] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+useEffect(() => setError(""), [mode]);
+
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+  setError("");
+  setLoading(true);
+  try {
     if (isLogin) {
-      // TODO: ganti dengan logika login (API) kamu
-      console.log({ email, password, remember });
-      navigate("/dashboard"); // setelah login, masuk ke dashboard
+      await login({ email, password }, remember);
+      navigate("/dashboard");
     } else {
-      // TODO: ganti dengan logika register (API) kamu
-      console.log({ username, email, password });
-      navigate("/verify", { state: { email } }); // lanjut ke verifikasi email
+      await register({ username, email, password });
+      navigate("/verify", { state: { email, remember } });
     }
-  };
+  } catch (err) {
+    if (err.status === 403) {
+      // sandi benar, tapi email belum diverifikasi
+      navigate("/verify", { state: { email, remember, fromLogin: true } });
+    } else {
+      setError(err.message);
+    }
+  } finally {
+    setLoading(false);
+  }
+};
 
   const noop = (e) => e.preventDefault(); // placeholder untuk tautan yang belum punya halaman
 
@@ -244,7 +261,8 @@ export default function AuthPage({ mode = "login" }) {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   autoComplete={isLogin ? "current-password" : "new-password"}
-                  minLength={isLogin ? undefined : 6}
+                  minLength={isLogin ? undefined : 8}
+                  maxLength={72}
                   required
                 />
                 <button
@@ -275,10 +293,11 @@ export default function AuthPage({ mode = "login" }) {
               {isLogin && <span className="auth-vault">Vault: Terenkripsi</span>}
             </div>
 
-            <button type="submit" className="auth-submit">
-              {isLogin ? "Masuk Petualangan" : "Daftar Petualangan"} →
+            {error && <p className="auth-error" role="alert">{error}</p>}
+            <button type="submit" className="auth-submit" disabled={loading}>
+              {loading ? "Memproses…" : `${isLogin ? "Masuk" : "Daftar"} Petualangan →`}
             </button>
-          </form>
+            </form>
 
           <div className="auth-bottom">
             <div className="auth-divider">
