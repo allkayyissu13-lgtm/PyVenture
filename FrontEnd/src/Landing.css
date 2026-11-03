@@ -158,13 +158,17 @@ body { font-family: var(--font-body); color: #fff; }
 
 /* ---------- Gunung & tanah ---------- */
 .mountain {
+  --mtn-w: min(56vw, 760px);
   position: absolute;
-  right: 30px;
-  bottom: 70px;
-  width: min(49vw, 630px);
+  right: 3vw;
+  /* gambar punya ruang kosong ±20% di bawahnya, ditarik turun supaya rumputnya menyatu dengan tanah */
+  bottom: calc(var(--ground-h) - var(--mtn-w) * 0.2);
+  width: var(--mtn-w);
   height: auto;
   z-index: 1;
+  image-rendering: pixelated; /* menjaga kotak-kotak pixel tetap tajam */
 }
+
 .ground {
   position: absolute;
   left: 0;
@@ -180,7 +184,7 @@ body { font-family: var(--font-body); color: #fff; }
   .brand-title { font-size: 1.3rem; }
   .btn { padding: 6px 12px; font-size: 0.85rem; }
   .hero { padding: 32px 20px 160px; }
-  .mountain { opacity: 0.55; width: 80vw; }
+  .mountain { --mtn-w: 90vw; opacity: 0.5; right: -4vw; }
   .lead, .btn-start { margin-left: 0; }
 }
 @media (prefers-reduced-motion: reduce) {

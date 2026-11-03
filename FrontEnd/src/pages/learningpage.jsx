@@ -1,15 +1,7 @@
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar.jsx";
+import { MODULES, getProgress } from "../data/modules.js";
 import "./learningpage.css";
-
-/* ---------- Data contoh (ganti dengan data dari API kamu) ---------- */
-const MODULES = [
-  { id: 1, title: "Python Dasar", desc: "Deskripsi Modul", progress: 45 },
-  { id: 2, title: "Struktur Kontrol", desc: "Deskripsi Modul", progress: 30 },
-  { id: 3, title: "Struktur Data", desc: "Deskripsi Modul", locked: true, solved: 0, total: 6 },
-  { id: 4, title: "Fungsi & Modul", desc: "Deskripsi Modul", locked: true, solved: 0, total: 6 },
-  { id: 5, title: "OOP", desc: "Deskripsi Modul", locked: true, solved: 0, total: 6 },
-];
 
 const DocIcon = () => (
   <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -20,9 +12,9 @@ const DocIcon = () => (
 
 const ShieldLockIcon = () => (
   <svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true">
-    <path d="M12 2.5l8 3v6c0 5-3.5 8.500-8 10-4.500-1.500-8-5-8-10v-6z" fill="#fff" />
-    <rect x="8.500" y="10.500" width="7" height="5.500" rx="1" fill="#283147" />
-    <path d="M10 10.500V9a2 2 0 0 1 4 0v1.500" fill="none" stroke="#283147" strokeWidth="1.600" />
+    <path d="M12 2.5l8 3v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10v-6z" fill="#fff" />
+    <rect x="8.5" y="10.5" width="7" height="5.5" rx="1" fill="#283147" />
+    <path d="M10 10.5V9a2 2 0 0 1 4 0v1.5" fill="none" stroke="#283147" strokeWidth="1.6" />
   </svg>
 );
 
@@ -41,48 +33,52 @@ export default function LearningPage() {
         <h1 className="learn-title">Modul Pembelajaran</h1>
 
         <ul className="learn-list">
-          {MODULES.map((m) => (
-            <li className={`learn-card${m.locked ? " is-locked" : ""}`} key={m.id}>
-              <span className="learn-icon">{m.locked ? <ShieldLockIcon /> : <DocIcon />}</span>
+          {MODULES.map((m) => {
+            const total = m.quiz.length;
+            const pct = getProgress(m);
+            return (
+              <li className={`learn-card${m.locked ? " is-locked" : ""}`} key={m.id}>
+                <span className="learn-icon">{m.locked ? <ShieldLockIcon /> : <DocIcon />}</span>
 
-              <div className="learn-body">
-                <h2 className="learn-name">
-                  {m.id}. {m.title}
-                </h2>
-                <p className="learn-desc">{m.desc}</p>
+                <div className="learn-body">
+                  <h2 className="learn-name">
+                    {m.id}. {m.title}
+                  </h2>
+                  <p className="learn-desc">{m.desc}</p>
+
+                  {m.locked ? (
+                    <p className="learn-solved">
+                      {m.solved}/{total} soal selesai
+                    </p>
+                  ) : (
+                    <div className="learn-progress">
+                      <div
+                        className="learn-bar"
+                        role="progressbar"
+                        aria-valuenow={pct}
+                        aria-valuemin="0"
+                        aria-valuemax="100"
+                        aria-label={`Progres ${m.title}`}
+                      >
+                        <span style={{ width: `${pct}%` }} />
+                      </div>
+                      <span className="learn-pct">{pct}%</span>
+                    </div>
+                  )}
+                </div>
 
                 {m.locked ? (
-                  <p className="learn-solved">
-                    {m.solved}/{m.total} soal selesai
-                  </p>
+                  <span className="learn-play is-disabled" role="img" aria-label={`${m.title} masih terkunci`}>
+                    <PlayIcon />
+                  </span>
                 ) : (
-                  <div className="learn-progress">
-                    <div
-                      className="learn-bar"
-                      role="progressbar"
-                      aria-valuenow={m.progress}
-                      aria-valuemin="0"
-                      aria-valuemax="100"
-                      aria-label={`Progres ${m.title}`}
-                    >
-                      <span style={{ width: `${m.progress}%` }} />
-                    </div>
-                    <span className="learn-pct">{m.progress}%</span>
-                  </div>
+                  <Link to={`/modul/${m.id}`} className="learn-play" aria-label={`Buka ${m.title}`}>
+                    <PlayIcon />
+                  </Link>
                 )}
-              </div>
-
-              {m.locked ? (
-                <span className="learn-play is-disabled" role="img" aria-label={`${m.title} masih terkunci`}>
-                  <PlayIcon />
-                </span>
-              ) : (
-                <Link to="/quest" className="learn-play" aria-label={`Lanjutkan ${m.title}`}>
-                  <PlayIcon />
-                </Link>
-              )}
-            </li>
-          ))}
+              </li>
+            );
+          })}
         </ul>
       </main>
 

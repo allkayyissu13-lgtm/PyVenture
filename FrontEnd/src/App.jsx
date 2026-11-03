@@ -4,6 +4,7 @@ import AuthPage from "./pages/authpage.jsx";
 import VerifyPage from "./pages/verifypage.jsx";
 import DashboardPage from "./pages/dashboardpage.jsx";
 import LearningPage from "./pages/learningpage.jsx";
+import ModulePage from "./pages/modulepage.jsx";
 import CodePage from "./pages/codepage.jsx";
 import ResultPage from "./pages/resultpage.jsx";
 
@@ -16,6 +17,7 @@ export default function App() {
       <Route path="/verify" element={<VerifyPage />} />
       <Route path="/dashboard" element={<DashboardPage />} />
       <Route path="/modul" element={<LearningPage />} />
+      <Route path="/modul/:id" element={<ModulePage />} />
       <Route path="/quest" element={<CodePage />} />
       <Route path="/quest/success" element={<ResultPage mode="success" />} />
       <Route path="/quest/failed" element={<ResultPage mode="failed" />} />
