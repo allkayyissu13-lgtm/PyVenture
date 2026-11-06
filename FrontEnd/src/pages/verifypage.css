@@ -54,6 +54,8 @@
   text-decoration: none;
 }
 
+.verify-brand-logo { width: 44px; height: 44px; margin-bottom: 4px; object-fit: contain; }
+
 .verify-brand-name {
   font-size: 22px;
   font-weight: 500;

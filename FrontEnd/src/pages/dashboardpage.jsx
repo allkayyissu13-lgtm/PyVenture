@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { clearSession } from "../lib/api";
 import "./dashboardpage.css";
+import logoImg from "../assets/pyventure.png";
 
 /* ---------- Data contoh (ganti dengan data dari API kamu) ---------- */
 const USER = { name: "Nama Pengguna", handle: "@username", level: 7, xp: 850, xpMax: 1200 };
@@ -115,8 +116,10 @@ export default function DashboardPage() {
       <div className="dash-shell">
         {/* ---------- Navbar ---------- */}
         <header className="dash-nav">
-          <Link to="/dashboard" className="dash-brand">PyVenture</Link>
-
+          <Link to="/dashboard" className="dash-brand">
+            <img className="dash-logo" src={logoImg} alt="" /> PyVenture
+          </Link>
+          
           <nav className="dash-tabs" aria-label="Menu utama">
             <Link to="/dashboard" className="dash-tab is-active" aria-current="page">
               Beranda

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./authpage.css";
+import logoImg from "../assets/pyventure.png";
 
 /* ---------- Ikon ---------- */
 const Svg = ({ children, ...props }) => (
@@ -113,12 +114,15 @@ export default function AuthPage({ mode = "login" }) {
         {/* ---------- Panel kiri ---------- */}
         <aside className="auth-aside">
           <Link to="/" className="auth-brand" aria-label="Kembali ke beranda">
-            <span className="auth-brand-name">PyVenture</span>
-            <span className="auth-brand-sub">
-              Expedition
+            <img className="auth-brand-logo" src={logoImg} alt="" />
+              <span className="auth-brand-text">
+              <span className="auth-brand-name">PyVenture</span>
+              <span className="auth-brand-sub">
+                Expedition
               <br />
-              Gateway
-            </span>
+                Gateway
+              </span>
+              </span>
           </Link>
 
           <span className="auth-season">

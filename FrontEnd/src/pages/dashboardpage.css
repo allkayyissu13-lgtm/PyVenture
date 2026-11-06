@@ -63,11 +63,16 @@
 }
 
 .dash-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   font-size: 16px;
   font-weight: 700;
   color: #fff;
   text-decoration: none;
 }
+
+.dash-logo { width: 28px; height: 28px; object-fit: contain; }
 
 .dash-tabs {
   display: flex;

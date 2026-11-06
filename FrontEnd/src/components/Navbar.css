@@ -11,6 +11,8 @@
   box-sizing: border-box;
 }
 
+.nv-logo { width: 28px; height: 28px; object-fit: contain; }
+
 .nv *,
 .nv *::before,
 .nv *::after {
