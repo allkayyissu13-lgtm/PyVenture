@@ -15,7 +15,7 @@
   --c-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
 
   min-height: 100vh;
-  padding: 14px;
+  padding: 0;
   background: linear-gradient(180deg, #14223b 0%, #0c1527 100%);
   font-family: var(--c-sans);
   color: var(--c-ink);
@@ -30,15 +30,12 @@
 .code-shell {
   width: min(100%, 1100px);
   margin: 0 auto;
+  padding: 14px;
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
-.code-shell .nv {
-  border: 1px solid var(--c-line);
-  border-radius: 10px;
-}
 
 .code-mono {
   font-family: var(--c-mono);

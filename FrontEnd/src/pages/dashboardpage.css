@@ -68,12 +68,27 @@
 }
 
 .dash-nav-inner {
-  width: min(100%, 1100px);
-  margin: 0 auto;
-  padding: 10px 16px;
+  width: 100%;
+  margin: 0;
+  padding: 10px 24px;
   display: flex;
   align-items: center;
   gap: 18px;
+}
+
+.dash-search {
+  margin-left: auto;
+  flex: 0 1 calc(50% - 24px); /* mulai dari tengah layar sampai tepi kanan */
+  min-width: 200px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 12px;
+  background: var(--d-field);
+  border: 1px solid var(--d-line);
+  border-radius: 8px;
+  color: var(--d-dim);
 }
 
 .dash-brand {
@@ -116,19 +131,7 @@
   color: #fff;
 }
 
-.dash-search {
-  margin-left: auto;
-  width: min(100%, 300px);
-  height: 32px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 0 12px;
-  background: var(--d-field);
-  border: 1px solid var(--d-line);
-  border-radius: 8px;
-  color: var(--d-dim);
-}
+
 
 .dash-search:focus-within {
   border-color: var(--d-ice);

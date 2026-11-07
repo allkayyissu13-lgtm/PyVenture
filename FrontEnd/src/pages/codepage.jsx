@@ -180,11 +180,11 @@ export default function CodePage() {
 
   const revealHint = () => setHintsUsed((n) => Math.min(n + 1, HINTS.length));
 
-  return (
+   return (
     <div className="code-page">
-      <div className="code-shell">
-        <Navbar active="quest" />
+      <Navbar active="quest" />
 
+      <div className="code-shell">
         {/* ---------- Header level ---------- */}
         <div className="code-top">
           <div className="code-heading">
