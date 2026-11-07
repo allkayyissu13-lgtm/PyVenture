@@ -12,29 +12,22 @@ export const MODULES = [
       {
         title: "Pengenalan Python",
         desc: "Python adalah bahasa pemrograman yang mudah dibaca dan dipakai untuk banyak hal, dari web sampai analisis data.",
-        code: `print("Halo, PyVenture!")`,
+        code: 'print("Halo, PyVenture!")',
       },
       {
-        title: "Variabel & Tipe Data",
+        title: "Nama Materi",
         desc: "Variabel menyimpan nilai. Tipe data yang umum dipakai: int, float, str, dan bool.",
-        code: `nama = "Frost"
-umur = 17
-suhu = -12.5
-print(nama, umur, suhu)`,
+        code: 'nama = "Frost"\numur = 17\nsuhu = -12.5\nprint(nama, umur, suhu)',
       },
       {
-        title: "Operator",
+        title: "Nama Materi",
         desc: "Operator aritmatika dan perbandingan dipakai untuk menghitung dan membandingkan nilai.",
-        code: `a = 7
-b = 3
-print(a + b, a // b, a % b)
-print(a > b)`,
+        code: "a = 7\nb = 3\nprint(a + b, a // b, a % b)\nprint(a > b)",
       },
       {
-        title: "Input & Output",
+        title: "Nama Materi",
         desc: "Gunakan input() untuk membaca masukan dan print() untuk menampilkan hasil.",
-        code: `nama = input("Nama: ")
-print("Halo,", nama)`,
+        code: 'nama = input("Nama: ")\nprint("Halo,", nama)',
       },
     ],
     quiz: ["Hello, PyVenture", "Hitung Luas Persegi", "Konversi Suhu", "Sapa Pengguna", "Kalkulator Mini"],
@@ -48,35 +41,22 @@ print("Halo,", nama)`,
       {
         title: "Percabangan if",
         desc: "if, elif, dan else memilih blok kode yang dijalankan berdasarkan sebuah kondisi.",
-        code: `suhu = -30
-if suhu < -25:
-    print("Ekstrem")
-else:
-    print("Normal")`,
+        code: 'suhu = -30\nif suhu < -25:\n    print("Ekstrem")\nelse:\n    print("Normal")',
       },
       {
         title: "Perulangan for",
         desc: "for mengulang kode untuk setiap elemen dalam urutan, misalnya hasil range().",
-        code: `for i in range(3):
-    print("Langkah", i)`,
+        code: 'for i in range(3):\n    print("Langkah", i)',
       },
       {
         title: "Perulangan while",
         desc: "while mengulang kode selama kondisinya masih benar.",
-        code: `n = 3
-while n > 0:
-    print(n)
-    n -= 1`,
+        code: "n = 3\nwhile n > 0:\n    print(n)\n    n -= 1",
       },
       {
         title: "Break & Continue",
         desc: "break menghentikan perulangan, continue melompat ke putaran berikutnya.",
-        code: `for i in range(10):
-    if i == 5:
-        break
-    if i % 2 == 0:
-        continue
-    print(i)`,
+        code: "for i in range(10):\n    if i == 5:\n        break\n    if i % 2 == 0:\n        continue\n    print(i)",
       },
     ],
     quiz: ["Cek Bilangan Genap", "Hitung Mundur", "Jumlah 1 sampai N", "Filter Suhu", "Tebak Angka"],

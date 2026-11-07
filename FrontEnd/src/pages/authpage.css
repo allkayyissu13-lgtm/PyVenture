@@ -1,6 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&family=Space+Grotesk:wght@400;500;700&display=swap");
 
-/* Semua class berawalan auth- agar tidak bentrok dengan Landing */
+/* Semua class berawalan auth- agar tidak bentrok dengan halaman lain */
 .auth-page {
   --a-ink: #e6edf7;
   --a-muted: #9fb0c9;
@@ -9,7 +9,6 @@
   --a-field: #0a1424;
   --a-blue: #2f6df0;
   --a-ice: #7fb5e8;
-  --a-ember: #ff7a59;
   --a-peach-1: #ffb396;
   --a-peach-2: #ffd9cc;
   --a-sans: "Space Grotesk", "Segoe UI", Arial, sans-serif;
@@ -48,10 +47,17 @@
 .auth-aside {
   display: flex;
   flex-direction: column;
-  gap: 14px;
-  padding: 28px 22px;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 24px 22px;
   background: linear-gradient(180deg, #14253f 0%, #0f1d33 100%);
   border-right: 1px solid var(--a-line);
+}
+
+.auth-aside-top {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
 }
 
 .auth-brand {
@@ -63,50 +69,37 @@
   text-decoration: none;
 }
 
-.auth-brand-text { display: flex; flex-direction: column; gap: 4px; }
-.auth-brand-logo { width: 42px; height: 42px; object-fit: contain; }
+.auth-brand-logo {
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+}
+
+.auth-brand-text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
 
 .auth-brand-name {
   font-size: 20px;
   font-weight: 700;
+  line-height: 1;
   letter-spacing: -0.01em;
   color: #fff;
 }
 
 .auth-brand-sub {
   font-family: var(--a-mono);
-  font-size: 9px;
-  line-height: 1.35;
+  font-size: 8px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--a-ice);
 }
 
-.auth-season {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  width: fit-content;
-  padding: 3px 8px;
-  border: 1px solid rgba(127, 181, 232, 0.25);
-  border-radius: 4px;
-  background: rgba(127, 181, 232, 0.12);
-  font-family: var(--a-mono);
-  font-size: 9px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--a-ice);
-}
-
-.auth-season-dot {
-  width: 5px;
-  height: 5px;
-  background: var(--a-ember);
-}
-
 .auth-title {
-  margin: 0;
-  font-size: 22px;
+  margin: 10px 0 0;
+  font-size: 24px;
   font-weight: 700;
   line-height: 1.15;
   letter-spacing: -0.01em;
@@ -115,117 +108,23 @@
 
 .auth-desc {
   margin: 0;
-  max-width: 34ch;
+  max-width: 30ch;
   font-size: 11px;
-  line-height: 1.5;
+  line-height: 1.55;
   color: var(--a-muted);
-}
-
-/* Kartu bonus */
-.auth-bonus {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  padding: 12px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 8px;
-}
-
-.auth-bonus-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.auth-mono-label {
-  font-family: var(--a-mono);
-  font-size: 9px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--a-muted);
-}
-
-.auth-xp {
-  padding: 2px 7px;
-  border: 1px solid rgba(255, 122, 89, 0.35);
-  border-radius: 6px;
-  background: rgba(255, 122, 89, 0.15);
-  font-family: var(--a-mono);
-  font-size: 10px;
-  font-weight: 700;
-  color: var(--a-peach-1);
-}
-
-.auth-bonus-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.auth-bonus-item strong {
-  display: block;
-  font-size: 12px;
-  color: #fff;
-}
-
-.auth-bonus-item p {
-  margin: 2px 0 0;
-  font-size: 10px;
-  color: var(--a-muted);
-}
-
-.auth-bonus-icon {
-  position: relative;
-  flex: none;
-  width: 38px;
-  height: 38px;
-  display: grid;
-  place-items: center;
-  background: var(--a-field);
-  border: 1px solid var(--a-line);
-  border-radius: 8px;
-  color: var(--a-peach-1);
-}
-
-.auth-bonus-icon::after {
-  content: "";
-  position: absolute;
-  top: -3px;
-  right: -3px;
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--a-ember);
-}
-
-.auth-features {
-  display: flex;
-  gap: 14px;
-  padding-top: 10px;
-  border-top: 1px solid var(--a-line);
-  font-family: var(--a-mono);
-  font-size: 9px;
-  color: var(--a-muted);
-}
-
-.auth-features span {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
 }
 
 /* Kutipan */
 .auth-quote {
-  margin: auto 0 0;
-  padding: 14px;
+  margin: 0;
+  padding: 16px 14px;
   background: #0d1a2f;
   border: 1px solid var(--a-line);
   border-radius: 8px;
   font-family: var(--a-mono);
   font-size: 10px;
   font-style: italic;
-  line-height: 1.6;
+  line-height: 1.7;
   color: var(--a-ice);
 }
 
@@ -549,7 +448,6 @@
     border-bottom: 1px solid var(--a-line);
   }
 
-  .auth-bonus,
   .auth-quote {
     display: none;
   }

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import "./authpage.css";
 import logoImg from "../assets/pyventure.png";
+import "./authpage.css";
 
 /* ---------- Ikon ---------- */
 const Svg = ({ children, ...props }) => (
@@ -50,24 +50,6 @@ const EyeOffIcon = (p) => (
     <path d="M9.9 9.9a3 3 0 0 0 4.2 4.2" />
   </Svg>
 );
-const GemIcon = (p) => (
-  <Svg {...p}>
-    <path d="M6 3h12l4 6-10 12L2 9z" />
-    <path d="M2 9h20M9 3l3 6 3-6M12 21L9 9M12 21l3-12" />
-  </Svg>
-);
-const TerminalIcon = (p) => (
-  <Svg {...p}>
-    <rect x="3" y="4" width="18" height="16" rx="2" />
-    <path d="M7 10l3 2-3 2M13 15h4" />
-  </Svg>
-);
-const TrophyIcon = (p) => (
-  <Svg {...p}>
-    <path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0z" />
-    <path d="M7 6H4a3 3 0 0 0 3 4M17 6h3a3 3 0 0 1-3 4" />
-  </Svg>
-);
 const GithubIcon = (p) => (
   <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" {...p}>
     <path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 0-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.3-3.1-.2-.4-.6-1.6 0-3.2 0 0 1-.3 3.4 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.7 1.6.3 2.8.1 3.2.8.8 1.3 1.9 1.3 3.1 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .3" />
@@ -98,11 +80,11 @@ export default function AuthPage({ mode = "login" }) {
     if (isLogin) {
       // TODO: ganti dengan logika login (API) kamu
       console.log({ email, password, remember });
-      navigate("/dashboard"); // setelah login, masuk ke dashboard
+      navigate("/dashboard");
     } else {
       // TODO: ganti dengan logika register (API) kamu
       console.log({ username, email, password });
-      navigate("/verify", { state: { email } }); // lanjut ke verifikasi email
+      navigate("/verify", { state: { email } });
     }
   };
 
@@ -113,59 +95,29 @@ export default function AuthPage({ mode = "login" }) {
       <div className="auth-shell">
         {/* ---------- Panel kiri ---------- */}
         <aside className="auth-aside">
-          <Link to="/" className="auth-brand" aria-label="Kembali ke beranda">
-            <img className="auth-brand-logo" src={logoImg} alt="" />
+          <div className="auth-aside-top">
+            <Link to="/" className="auth-brand" aria-label="Kembali ke beranda">
+              <img className="auth-brand-logo" src={logoImg} alt="" />
               <span className="auth-brand-text">
-              <span className="auth-brand-name">PyVenture</span>
-              <span className="auth-brand-sub">
-                Expedition
+                <span className="auth-brand-name">PyVenture</span>
+                <span className="auth-brand-sub">Expedition Gateway</span>
+              </span>
+            </Link>
+
+            <h1 className="auth-title">
+              {isLogin ? "Masuk" : "Daftar"} ke Dunia
               <br />
-                Gateway
-              </span>
-              </span>
-          </Link>
-
-          <span className="auth-season">
-            <i className="auth-season-dot" /> Season 04: Frostfang Peak
-          </span>
-
-          <h1 className="auth-title">
-            {isLogin ? "Masuk" : "Daftar"} ke Dunia
-            <br />
-            PyVenture
-          </h1>
-          <p className="auth-desc">
-            Kuasai sintaksis Python lewat penjelajahan dungeon logika dan
-            taklukkan algoritma es.
-          </p>
-
-          <section className="auth-bonus" aria-label="Bonus rekrut baru">
-            <div className="auth-bonus-head">
-              <span className="auth-mono-label">Bonus Rekrut Baru</span>
-              <span className="auth-xp">+100 XP</span>
-            </div>
-            <div className="auth-bonus-item">
-              <span className="auth-bonus-icon">
-                <GemIcon width="18" height="18" />
-              </span>
-              <div>
-                <strong>Lencana Frost Seeker</strong>
-                <p>Otomatis tersemat di profil petualang</p>
-              </div>
-            </div>
-            <div className="auth-features">
-              <span>
-                <TerminalIcon width="12" height="12" /> Live Cloud IDE
-              </span>
-              <span>
-                <TrophyIcon width="12" height="12" /> Ranked Battles
-              </span>
-            </div>
-          </section>
+              PyVenture
+            </h1>
+            <p className="auth-desc">
+              Kuasai sintaksis Python lewat penjelajahan dungeon logika dan
+              taklukkan algoritma es.
+            </p>
+          </div>
 
           <blockquote className="auth-quote">
-            "Setiap baris kode adalah jejak langkah menembus badai es
-            ketidaktahuan."
+            “Setiap baris kode adalah jejak langkah menembus badai es
+            ketidaktahuan.”
           </blockquote>
         </aside>
 

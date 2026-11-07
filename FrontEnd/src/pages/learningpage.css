@@ -17,6 +17,8 @@
 
 .learn-main {
   flex: 1;
+  width: min(100%, 1100px);
+  margin: 0 auto;
   padding: 22px 28px 48px;
 }
 

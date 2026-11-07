@@ -37,7 +37,7 @@ export default function LearningPage() {
             const total = m.quiz.length;
             const pct = getProgress(m);
             return (
-              <li className={`learn-card${m.locked ? " is-locked" : ""}`} key={m.id}>
+              <li className={"learn-card" + (m.locked ? " is-locked" : "")} key={m.id}>
                 <span className="learn-icon">{m.locked ? <ShieldLockIcon /> : <DocIcon />}</span>
 
                 <div className="learn-body">
@@ -58,9 +58,9 @@ export default function LearningPage() {
                         aria-valuenow={pct}
                         aria-valuemin="0"
                         aria-valuemax="100"
-                        aria-label={`Progres ${m.title}`}
+                        aria-label={"Progres " + m.title}
                       >
-                        <span style={{ width: `${pct}%` }} />
+                        <span style={{ width: pct + "%" }} />
                       </div>
                       <span className="learn-pct">{pct}%</span>
                     </div>
@@ -68,11 +68,11 @@ export default function LearningPage() {
                 </div>
 
                 {m.locked ? (
-                  <span className="learn-play is-disabled" role="img" aria-label={`${m.title} masih terkunci`}>
+                  <span className="learn-play is-disabled" role="img" aria-label={m.title + " masih terkunci"}>
                     <PlayIcon />
                   </span>
                 ) : (
-                  <Link to={`/modul/${m.id}`} className="learn-play" aria-label={`Buka ${m.title}`}>
+                  <Link to={"/modul/" + m.id} className="learn-play" aria-label={"Buka " + m.title}>
                     <PlayIcon />
                   </Link>
                 )}

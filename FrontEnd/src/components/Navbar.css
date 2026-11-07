@@ -1,22 +1,27 @@
 @import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;700&display=swap");
 
 .nv {
-  display: flex;
-  align-items: center;
-  gap: 18px;
-  padding: 10px 20px;
-  background: #0f1b30;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: #0c182b;
+  border-bottom: 1px solid rgba(140, 175, 225, 0.16);
   font-family: "Space Grotesk", "Segoe UI", Arial, sans-serif;
-  box-sizing: border-box;
 }
-
-.nv-logo { width: 28px; height: 28px; object-fit: contain; }
 
 .nv *,
 .nv *::before,
 .nv *::after {
   box-sizing: border-box;
+}
+
+.nv-inner {
+  width: min(100%, 1100px);
+  margin: 0 auto;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
 }
 
 .nv-brand {
@@ -29,6 +34,12 @@
   text-decoration: none;
 }
 
+.nv-logo {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+}
+
 .nv-tabs {
   display: flex;
   gap: 4px;
@@ -39,7 +50,7 @@
   border-radius: 6px;
   font-size: 12px;
   font-weight: 500;
-  color: #c3cde0;
+  color: #9db0cc;
   text-decoration: none;
   transition: background 0.15s ease, color 0.15s ease;
 }
@@ -49,7 +60,7 @@
 }
 
 .nv-tab.is-active {
-  background: #243250;
+  background: #263247;
   color: #fff;
 }
 
@@ -61,10 +72,10 @@
   align-items: center;
   gap: 8px;
   padding: 0 12px;
-  background: #0a1424;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: #0a1426;
+  border: 1px solid rgba(140, 175, 225, 0.16);
   border-radius: 8px;
-  color: #6e7f99;
+  color: #70829f;
 }
 
 .nv-search:focus-within {
@@ -77,7 +88,7 @@
   min-width: 0;
   border: 0;
   background: none;
-  color: #e6edf7;
+  color: #e8eef8;
   font-family: "JetBrains Mono", ui-monospace, Consolas, monospace;
   font-size: 10px;
   outline: none;
@@ -94,7 +105,7 @@
 }
 
 @media (max-width: 760px) {
-  .nv {
+  .nv-inner {
     flex-wrap: wrap;
   }
 
