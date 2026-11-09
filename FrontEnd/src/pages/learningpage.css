@@ -4,7 +4,7 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: linear-gradient(180deg, #3d6791 0%, #2f4a72 45%, #222c40 100%);
+  background: linear-gradient(180deg, #2a5f8c 0%, #17375d 45%, #0b1830 100%);
   font-family: "Space Grotesk", "Segoe UI", Arial, sans-serif;
   color: #fff;
 }

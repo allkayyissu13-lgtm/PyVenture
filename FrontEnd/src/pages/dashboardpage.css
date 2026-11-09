@@ -23,7 +23,7 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: linear-gradient(180deg, #1f5084 0%, #173a63 40%, #0f2342 100%);
+  background: linear-gradient(180deg, #2a5f8c 0%, #17375d 45%, #0b1830 100%);
   font-family: var(--d-sans);
   color: var(--d-ink);
 }

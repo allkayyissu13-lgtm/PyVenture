@@ -16,7 +16,7 @@
 
   min-height: 100vh;
   padding: 0;
-  background: linear-gradient(180deg, #14223b 0%, #0c1527 100%);
+  background: linear-gradient(180deg, #2a5f8c 0%, #17375d 45%, #0b1830 100%);
   font-family: var(--c-sans);
   color: var(--c-ink);
 }
