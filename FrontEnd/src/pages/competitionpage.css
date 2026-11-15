@@ -1,0 +1,36 @@
+.comp-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(180deg, #3d6791 0%, #2f4a72 45%, #222c40 100%);
+  font-family: "Space Grotesk", "Segoe UI", Arial, sans-serif;
+  color: #fff;
+}
+
+.comp-main {
+  flex: 1;
+  width: min(100%, 1100px);
+  margin: 0 auto;
+  padding: 22px 28px 48px;
+}
+
+.comp-title {
+  margin: 0 0 8px;
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.comp-note {
+  margin: 0;
+  font-size: 13px;
+  color: #dbe4f5;
+}
+
+.comp-footer {
+  padding: 16px;
+  text-align: center;
+  background: #0b1628;
+  font-family: "JetBrains Mono", ui-monospace, Consolas, monospace;
+  font-size: 9px;
+  color: #9fb0c9;
+}

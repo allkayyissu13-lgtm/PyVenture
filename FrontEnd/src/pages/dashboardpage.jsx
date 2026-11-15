@@ -1,5 +1,5 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
+import Navbar from "../components/Navbar.jsx";
 import "./dashboardpage.css";
 
 /* ---------- Data contoh (ganti dengan data dari API kamu) ---------- */
@@ -21,14 +21,8 @@ const BADGES = [
   { level: 6, name: "Grandmaster", xp: "+500", tone: "locked", icon: "lock", done: false, progress: 7, total: 30 },
 ];
 
-const PERIODS = [
-  { key: "weekly", label: "Mingguan" },
-  { key: "monthly", label: "Bulanan" },
-  { key: "all", label: "Semua Masa" },
-];
-
-const WEEKLY = {
-  reset: "Reset: 3h 14m",
+/* Podium berurutan: peringkat 2, 1, 3 (urutan tampil) */
+const LEADERBOARD = {
   podium: [
     { rank: 2, name: "Fauzi", xp: "4,120" },
     { rank: 1, name: "Sihotang", xp: "4,890" },
@@ -43,25 +37,6 @@ const WEEKLY = {
   ],
 };
 
-const MONTHLY = {
-  reset: "Reset: 20d 1h",
-  podium: [
-    { rank: 2, name: "Fauzan", xp: "11,120" },
-    { rank: 1, name: "Hibrizi", xp: "15,890" },
-    { rank: 3, name: "Azahra", xp: "9,980" },
-  ],
-  ranking: [
-    { rank: 4, name: "Lionel Ashley", xp: "8,720" },
-    { rank: 5, name: "Dzakwan Hibrizi", xp: "7,940" },
-    { rank: 6, name: "Barra Allapydya", xp: "6,510" },
-    { rank: 7, name: "Rushwa Bava", xp: "5,450", me: true, note: "Naik +1 Rank" },
-    { rank: 8, name: "Indah Winatha", xp: "4,300" },
-  ],
-};
-
-// Di screenshot, "Semua Masa" menampilkan data yang sama dengan "Bulanan".
-const BOARDS = { weekly: WEEKLY, monthly: MONTHLY, all: MONTHLY };
-
 const initials = (name) =>
   name
     .split(" ")
@@ -72,7 +47,6 @@ const initials = (name) =>
 
 /* ---------- Ikon ---------- */
 const PATHS = {
-  search: <><circle cx="11" cy="11" r="7" /><path d="M20 20l-4-4" /></>,
   flag: <><path d="M5 21V4" /><path d="M5 4h12l-2 4 2 4H5" /></>,
   bolt: <path d="M13 2L4 14h7l-1 8 9-12h-7z" />,
   flame: <path d="M12 3c1 4 5 5 5 10a5 5 0 0 1-10 0c0-2 1-3 2-4 0 2 1 3 2 3 0-3-1-5 1-9z" />,
@@ -104,48 +78,12 @@ const Icon = ({ name, size = 14, solid = false }) => (
 
 /* ---------- Halaman ---------- */
 export default function DashboardPage() {
-  const [period, setPeriod] = useState("weekly");
-
-  const board = BOARDS[period];
   const pct = Math.round((USER.xp / USER.xpMax) * 100);
   const collected = BADGES.filter((b) => b.done).length;
 
-  // Navigasi tab leaderboard dengan panah kiri/kanan
-  const handleTabKey = (e, index) => {
-    let next = index;
-    if (e.key === "ArrowRight") next = (index + 1) % PERIODS.length;
-    else if (e.key === "ArrowLeft") next = (index - 1 + PERIODS.length) % PERIODS.length;
-    else return;
-    e.preventDefault();
-    setPeriod(PERIODS[next].key);
-    const el = document.getElementById("lb-tab-" + PERIODS[next].key);
-    if (el) el.focus();
-  };
-
-    return (
+  return (
     <div className="dash-page">
-      {/* ---------- Navbar (menempel di atas) ---------- */}
-      <header className="dash-nav">
-        <div className="dash-nav-inner">
-          <Link to="/dashboard" className="dash-brand">
-            <img className="dash-logo" src="/pyventure.png" alt="" />
-            PyVenture
-          </Link>
-
-          <nav className="dash-tabs" aria-label="Menu utama">
-            <Link to="/dashboard" className="dash-tab is-active" aria-current="page">
-              Beranda
-            </Link>
-            <Link to="/modul" className="dash-tab">Modul &amp; Materi</Link>
-            <Link to="/quest" className="dash-tab">Quest &amp; Latihan</Link>
-          </nav>
-
-          <label className="dash-search">
-            <Icon name="search" size={13} />
-            <input type="search" placeholder="Cari modul, syntax, atau quest ..." aria-label="Cari" />
-          </label>
-        </div>
-      </header>
+      <Navbar active="home" />
 
       <div className="dash-shell">
         {/* ---------- Banner quest ---------- */}
@@ -266,60 +204,35 @@ export default function DashboardPage() {
                 </span>{" "}
                 Leaderboard
               </h2>
-              <span className="dash-pill is-ice">{board.reset}</span>
             </div>
 
-            <div className="dash-seg" role="tablist" aria-label="Periode leaderboard">
-              {PERIODS.map((p, i) => {
-                const active = p.key === period;
-                return (
-                  <button
-                    key={p.key}
-                    id={"lb-tab-" + p.key}
-                    type="button"
-                    role="tab"
-                    aria-selected={active}
-                    aria-controls="lb-panel"
-                    tabIndex={active ? 0 : -1}
-                    className={active ? "is-active" : ""}
-                    onClick={() => setPeriod(p.key)}
-                    onKeyDown={(e) => handleTabKey(e, i)}
-                  >
-                    {p.label}
-                  </button>
-                );
-              })}
+            <div className="dash-podium">
+              {LEADERBOARD.podium.map((p) => (
+                <div className={"dash-podium-item rank-" + p.rank} key={p.rank}>
+                  <strong>{p.name}</strong>
+                  <span className="dash-podium-xp">{p.xp}</span>
+                  <span className="dash-podium-rank">{p.rank}</span>
+                  {p.rank === 1 && <span className="dash-podium-tag">Top Coder</span>}
+                </div>
+              ))}
             </div>
 
-            <div id="lb-panel" role="tabpanel" aria-labelledby={"lb-tab-" + period}>
-              <div className="dash-podium">
-                {board.podium.map((p) => (
-                  <div className={"dash-podium-item rank-" + p.rank} key={p.rank}>
-                    <strong>{p.name}</strong>
-                    <span className="dash-podium-xp">{p.xp}</span>
-                    <span className="dash-podium-rank">{p.rank}</span>
-                    {p.rank === 1 && <span className="dash-podium-tag">Top Coder</span>}
-                  </div>
-                ))}
-              </div>
-
-              <ol className="dash-rank-list">
-                {board.ranking.map((r) => (
-                  <li className={r.me ? "is-me" : ""} key={r.rank}>
-                    <span className="dash-rank-no">{r.me ? "#" + r.rank : r.rank}</span>
-                    <span className="dash-avatar">{r.me ? "" : initials(r.name)}</span>
-                    <span className="dash-rank-name">
-                      <b>
-                        {r.name}
-                        {r.me && <span className="dash-sr"> (kamu)</span>}
-                      </b>
-                      {r.note && <small>{r.note}</small>}
-                    </span>
-                    <span className="dash-rank-xp">{r.xp}</span>
-                  </li>
-                ))}
-              </ol>
-            </div>
+            <ol className="dash-rank-list">
+              {LEADERBOARD.ranking.map((r) => (
+                <li className={r.me ? "is-me" : ""} key={r.rank}>
+                  <span className="dash-rank-no">{r.me ? "#" + r.rank : r.rank}</span>
+                  <span className="dash-avatar">{r.me ? "" : initials(r.name)}</span>
+                  <span className="dash-rank-name">
+                    <b>
+                      {r.name}
+                      {r.me && <span className="dash-sr"> (kamu)</span>}
+                    </b>
+                    {r.note && <small>{r.note}</small>}
+                  </span>
+                  <span className="dash-rank-xp">{r.xp}</span>
+                </li>
+              ))}
+            </ol>
           </section>
         </div>
       </div>
