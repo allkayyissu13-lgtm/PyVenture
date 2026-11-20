@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { verifyEmail, resendCode } from "../lib/api";
 import "./verifypage.css";
+import logoImg from "../assets/pyventure.png";
 
 const LENGTH = 6;
 const COOLDOWN = 60; // detik
@@ -148,6 +149,7 @@ export default function VerifyPage() {
     <div className="verify-page">
       <main className="verify-card">
         <Link to="/" className="verify-brand" aria-label="Kembali ke beranda">
+          <img className="verify-brand-logo" src={logoImg} alt="" />
           <span className="verify-brand-name">PyVenture</span>
           <span className="verify-brand-sub">Expedition Gateway</span>
         </Link>

@@ -1,87 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { login, register } from "../lib/api";
+import { UserIcon, MailIcon, KeyIcon, EyeIcon, EyeOffIcon, GithubIcon, GoogleIcon } from "../components/Icons.jsx";
+import logoImg from "../assets/pyventure.png";
 import "./authpage.css";
 
-
-/* ---------- Ikon ---------- */
-const Svg = ({ children, ...props }) => (
-  <svg
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    aria-hidden="true"
-    {...props}
-  >
-    {children}
-  </svg>
-);
-
-const UserIcon = (p) => (
-  <Svg {...p}>
-    <circle cx="12" cy="8" r="4" />
-    <path d="M4 21c1-4 4-6 8-6s7 2 8 6" />
-  </Svg>
-);
-const MailIcon = (p) => (
-  <Svg {...p}>
-    <rect x="3" y="5" width="18" height="14" rx="2" />
-    <path d="M3 7l9 6 9-6" />
-  </Svg>
-);
-const KeyIcon = (p) => (
-  <Svg {...p}>
-    <circle cx="8" cy="15" r="4" />
-    <path d="M11 12l9-9M16 7l3 3M14 9l2 2" />
-  </Svg>
-);
-const EyeIcon = (p) => (
-  <Svg {...p}>
-    <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z" />
-    <circle cx="12" cy="12" r="3" />
-  </Svg>
-);
-const EyeOffIcon = (p) => (
-  <Svg {...p}>
-    <path d="M3 3l18 18" />
-    <path d="M10.6 6.1A10 10 0 0 1 12 6c6.5 0 10 6 10 6a17 17 0 0 1-3.2 3.9M6.6 7.6A17 17 0 0 0 2 12s3.5 6 10 6a10 10 0 0 0 4.2-.9" />
-    <path d="M9.9 9.9a3 3 0 0 0 4.2 4.2" />
-  </Svg>
-);
-const GemIcon = (p) => (
-  <Svg {...p}>
-    <path d="M6 3h12l4 6-10 12L2 9z" />
-    <path d="M2 9h20M9 3l3 6 3-6M12 21L9 9M12 21l3-12" />
-  </Svg>
-);
-const TerminalIcon = (p) => (
-  <Svg {...p}>
-    <rect x="3" y="4" width="18" height="16" rx="2" />
-    <path d="M7 10l3 2-3 2M13 15h4" />
-  </Svg>
-);
-const TrophyIcon = (p) => (
-  <Svg {...p}>
-    <path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0z" />
-    <path d="M7 6H4a3 3 0 0 0 3 4M17 6h3a3 3 0 0 1-3 4" />
-  </Svg>
-);
-const GithubIcon = (p) => (
-  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" {...p}>
-    <path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 0-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.3-3.1-.2-.4-.6-1.6 0-3.2 0 0 1-.3 3.4 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.7 1.6.3 2.8.1 3.2.8.8 1.3 1.9 1.3 3.1 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .3" />
-  </svg>
-);
-const GoogleIcon = (p) => (
-  <svg viewBox="0 0 24 24" aria-hidden="true" {...p}>
-    <path fill="#4285F4" d="M23.52 12.27c0-.85-.08-1.67-.22-2.45H12v4.64h6.46a5.52 5.52 0 0 1-2.4 3.62v3h3.88c2.27-2.09 3.58-5.17 3.58-8.81z" />
-    <path fill="#34A853" d="M12 24c3.24 0 5.96-1.07 7.94-2.91l-3.88-3c-1.08.72-2.45 1.15-4.06 1.15-3.12 0-5.77-2.11-6.71-4.95H1.28v3.1A12 12 0 0 0 12 24z" />
-    <path fill="#FBBC05" d="M5.29 14.29A7.2 7.2 0 0 1 4.91 12c0-.8.14-1.57.38-2.29V6.61H1.28A12 12 0 0 0 0 12c0 1.94.46 3.77 1.28 5.39l4.01-3.1z" />
-    <path fill="#EA4335" d="M12 4.75c1.76 0 3.34.61 4.59 1.8l3.44-3.44C17.95 1.19 15.24 0 12 0A12 12 0 0 0 1.28 6.61l4.01 3.1C6.23 6.86 8.88 4.75 12 4.75z" />
-  </svg>
-);
 
 /* ---------- Halaman Auth (login & register) ---------- */
 export default function AuthPage({ mode = "login" }) {
@@ -96,31 +19,29 @@ export default function AuthPage({ mode = "login" }) {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-useEffect(() => setError(""), [mode]);
-
   const handleSubmit = async (e) => {
-  e.preventDefault();
-  setError("");
-  setLoading(true);
-  try {
-    if (isLogin) {
-      await login({ email, password }, remember);
-      navigate("/dashboard");
-    } else {
-      await register({ username, email, password });
-      navigate("/verify", { state: { email, remember } });
+    e.preventDefault();
+    setError("");
+    setLoading(true);
+    try {
+      if (isLogin) {
+        await login({ email, password }, remember);
+        navigate("/dashboard");
+      } else {
+        await register({ username, email, password });
+        navigate("/verify", { state: { email } });
+      }
+    } catch (err) {
+      if (err.status === 403) {
+        // sandi benar, tapi email belum diverifikasi
+        navigate("/verify", { state: { email, remember, fromLogin: true } });
+      } else {
+        setError(err.message);
+      }
+    } finally {
+      setLoading(false);
     }
-  } catch (err) {
-    if (err.status === 403) {
-      // sandi benar, tapi email belum diverifikasi
-      navigate("/verify", { state: { email, remember, fromLogin: true } });
-    } else {
-      setError(err.message);
-    }
-  } finally {
-    setLoading(false);
-  }
-};
+  };
 
   const noop = (e) => e.preventDefault(); // placeholder untuk tautan yang belum punya halaman
 
@@ -129,56 +50,29 @@ useEffect(() => setError(""), [mode]);
       <div className="auth-shell">
         {/* ---------- Panel kiri ---------- */}
         <aside className="auth-aside">
-          <Link to="/" className="auth-brand" aria-label="Kembali ke beranda">
-            <span className="auth-brand-name">PyVenture</span>
-            <span className="auth-brand-sub">
-              Expedition
+          <div className="auth-aside-top">
+            <Link to="/" className="auth-brand" aria-label="Kembali ke beranda">
+              <img className="auth-brand-logo" src={logoImg} alt="" />
+              <span className="auth-brand-text">
+                <span className="auth-brand-name">PyVenture</span>
+                <span className="auth-brand-sub">Expedition Gateway</span>
+              </span>
+            </Link>
+
+            <h1 className="auth-title">
+              {isLogin ? "Masuk" : "Daftar"} ke Dunia
               <br />
-              Gateway
-            </span>
-          </Link>
-
-          <span className="auth-season">
-            <i className="auth-season-dot" /> Season 04: Frostfang Peak
-          </span>
-
-          <h1 className="auth-title">
-            {isLogin ? "Masuk" : "Daftar"} ke Dunia
-            <br />
-            PyVenture
-          </h1>
-          <p className="auth-desc">
-            Kuasai sintaksis Python lewat penjelajahan dungeon logika dan
-            taklukkan algoritma es.
-          </p>
-
-          <section className="auth-bonus" aria-label="Bonus rekrut baru">
-            <div className="auth-bonus-head">
-              <span className="auth-mono-label">Bonus Rekrut Baru</span>
-              <span className="auth-xp">+100 XP</span>
-            </div>
-            <div className="auth-bonus-item">
-              <span className="auth-bonus-icon">
-                <GemIcon width="18" height="18" />
-              </span>
-              <div>
-                <strong>Lencana Frost Seeker</strong>
-                <p>Otomatis tersemat di profil petualang</p>
-              </div>
-            </div>
-            <div className="auth-features">
-              <span>
-                <TerminalIcon width="12" height="12" /> Live Cloud IDE
-              </span>
-              <span>
-                <TrophyIcon width="12" height="12" /> Ranked Battles
-              </span>
-            </div>
-          </section>
+              PyVenture
+            </h1>
+            <p className="auth-desc">
+              Kuasai sintaksis Python lewat penjelajahan dungeon logika dan
+              taklukkan algoritma es.
+            </p>
+          </div>
 
           <blockquote className="auth-quote">
-            "Setiap baris kode adalah jejak langkah menembus badai es
-            ketidaktahuan."
+            “Setiap baris kode adalah jejak langkah menembus badai es
+            ketidaktahuan.”
           </blockquote>
         </aside>
 

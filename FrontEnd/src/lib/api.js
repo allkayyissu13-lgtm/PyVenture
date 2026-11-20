@@ -98,6 +98,7 @@ const withBody = (method, body) => ({ method, body: JSON.stringify(body) });
 
 export const getMap = () => api("/api/map");
 export const getProgress = () => api("/api/me/progress");
+export const getDashboard = () => api("/api/me/dashboard");
 
 export const getStage = (slug) => api(`/api/stages/${slug}`);
 export const getModule = (slug) => api(`/api/stages/${slug}/module`);

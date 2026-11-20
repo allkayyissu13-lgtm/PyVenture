@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar.jsx";
+import { Icon } from "../components/Icons.jsx";
 import "./codepage.css";
 
 /* ---------- Data contoh (ganti dengan data dari API kamu) ---------- */
@@ -51,41 +52,6 @@ const loadCode = () => {
 
 const formatTime = (s) =>
   `${String(Math.floor(s / 60)).padStart(2, "0")}:${String(s % 60).padStart(2, "0")}`;
-
-/* ---------- Ikon ---------- */
-const PATHS = {
-  back: <path d="M19 12H5M11 6l-6 6 6 6" />,
-  clock: <><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 2" /></>,
-  bulb: <path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10c1 1 1 2 1 3h6c0-1 0-2 1-3a6 6 0 0 0-4-10z" />,
-  check: <path d="M5 12l5 5 9-10" />,
-  star: <path d="M12 2l2.6 6.4L21 9l-5 4.4L17.5 20 12 16.6 6.5 20 8 13.4 3 9l6.4-.6z" />,
-  lock: <><rect x="5" y="11" width="14" height="10" rx="2" /><path d="M8 11V8a4 4 0 0 1 8 0v3" /></>,
-  file: <><path d="M6 3h9l4 4v14H6z" /><path d="M14 3v5h5" /></>,
-  refresh: <path d="M20 11a8 8 0 1 0-2 6M20 5v6h-6" />,
-  terminal: <><rect x="3" y="4" width="18" height="16" rx="2" /><path d="M7 10l3 2-3 2M13 15h4" /></>,
-  play: <path d="M7 4l13 8-13 8z" />,
-  send: <path d="M22 2L11 13M22 2l-7 20-4-9-9-4z" />,
-  list: <path d="M4 6h16M4 12h16M4 18h10" />,
-  bolt: <path d="M13 2L4 14h7l-1 8 9-12h-7z" />,
-  input: <path d="M10 17l5-5-5-5M15 12H3M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" />,
-  output: <path d="M14 7l5 5-5 5M19 12H7M9 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h4" />,
-};
-
-const Ic = ({ name, size = 14, fill = false }) => (
-  <svg
-    width={size}
-    height={size}
-    viewBox="0 0 24 24"
-    fill={fill ? "currentColor" : "none"}
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    aria-hidden="true"
-  >
-    {PATHS[name]}
-  </svg>
-);
 
 /* ---------- Halaman ---------- */
 export default function CodePage() {
@@ -180,16 +146,16 @@ export default function CodePage() {
 
   const revealHint = () => setHintsUsed((n) => Math.min(n + 1, HINTS.length));
 
-  return (
+   return (
     <div className="code-page">
-      <div className="code-shell">
-        <Navbar active="quest" />
+      <Navbar active="quest" />
 
+      <div className="code-shell">
         {/* ---------- Header level ---------- */}
         <div className="code-top">
           <div className="code-heading">
             <Link to="/modul" className="code-back">
-              <Ic name="back" size={12} /> Kembali ke Modul
+              <Icon name="back" size={12} /> Kembali ke Modul
             </Link>
             <div>
               <span className="code-mono">Expedition Track • {CHALLENGE.track}</span>
@@ -204,7 +170,7 @@ export default function CodePage() {
                 className={`code-level is-${l.state}`}
                 aria-current={l.state === "active" ? "step" : undefined}
               >
-                <Ic name={l.state === "done" ? "check" : l.state === "active" ? "star" : "lock"} size={11} fill={l.state === "active"} />
+                <Icon name={l.state === "done" ? "check" : l.state === "active" ? "star" : "lock"} size={11} solid={l.state === "active"} />
                 {l.id}: {l.label}
               </li>
             ))}
@@ -212,10 +178,10 @@ export default function CodePage() {
 
           <div className="code-meta">
             <span className="code-timer" aria-label="Waktu pengerjaan">
-              <Ic name="clock" size={13} /> {formatTime(elapsed)}
+              <Icon name="clock" size={13} /> {formatTime(elapsed)}
             </span>
             <button type="button" className="code-hint-btn" onClick={revealHint} disabled={hintsUsed >= HINTS.length}>
-              <Ic name="bulb" size={13} /> Hint Clue ({hintsUsed}/{HINTS.length})
+              <Icon name="bulb" size={13} /> Hint Clue ({hintsUsed}/{HINTS.length})
             </button>
           </div>
         </div>
@@ -232,14 +198,14 @@ export default function CodePage() {
 
             <div className="code-brief-tab">
               <span>
-                <Ic name="list" size={13} /> Instruksi Soal
+                <Icon name="list" size={13} /> Instruksi Soal
               </span>
             </div>
 
             <div className="code-brief-body">
               <div className="code-topic">
                 <span className="code-topic-icon">
-                  <Ic name="bolt" size={16} fill />
+                  <Icon name="bolt" size={16} solid />
                 </span>
                 <div>
                   <span className="code-mono code-topic-label">{CHALLENGE.topic}</span>
@@ -261,13 +227,13 @@ export default function CodePage() {
             <div className="code-io">
               <div>
                 <h2 className="code-io-title">
-                  <Ic name="input" size={12} /> Format Masukan (Input)
+                  <Icon name="input" size={12} /> Format Masukan (Input)
                 </h2>
                 <pre className="code-io-box">{CHALLENGE.input}</pre>
               </div>
               <div>
                 <h2 className="code-io-title is-out">
-                  <Ic name="output" size={12} /> Format Keluaran (Output)
+                  <Icon name="output" size={12} /> Format Keluaran (Output)
                 </h2>
                 <pre className="code-io-box">{CHALLENGE.output}</pre>
               </div>
@@ -278,11 +244,11 @@ export default function CodePage() {
           <section className="code-ide" aria-label="Editor kode">
             <div className="code-ide-bar">
               <span className="code-file">
-                <Ic name="file" size={12} /> solution.py <i aria-label="belum disimpan ke server" />
+                <Icon name="file" size={12} /> solution.py <i aria-label="belum disimpan ke server" />
               </span>
               <span className="code-ver">
                 <span>
-                  <Ic name="terminal" size={12} /> Python 3.14
+                  <Icon name="terminal" size={12} /> Python 3.14
                 </span>
                 <button
                   type="button"
@@ -291,7 +257,7 @@ export default function CodePage() {
                   aria-label="Kosongkan editor"
                   title="Kosongkan editor"
                 >
-                  <Ic name="refresh" size={12} />
+                  <Icon name="refresh" size={12} />
                 </button>
               </span>
             </div>
@@ -320,7 +286,7 @@ export default function CodePage() {
             <div className="code-terminal">
               <div className="code-terminal-bar">
                 <span>
-                  <Ic name="terminal" size={12} /> Terminal
+                  <Icon name="terminal" size={12} /> Terminal
                 </span>
                 <span className="code-stats">
                   <i /> {stats ? `${stats.ms} ms / ${stats.mem}` : "— ms / — MB"}
@@ -344,10 +310,10 @@ export default function CodePage() {
                 <kbd>Ctrl</kbd> + <kbd>Enter</kbd> untuk Run
               </span>
               <button type="button" className="code-run" onClick={runCode} disabled={running}>
-                {running ? "Menjalankan..." : "Jalankan Kode"} <Ic name="play" size={10} fill />
+                {running ? "Menjalankan..." : "Jalankan Kode"} <Icon name="play" size={10} solid />
               </button>
               <button type="button" className="code-submit" onClick={submit}>
-                <Ic name="send" size={12} /> Submit Solusi
+                <Icon name="send" size={12} /> Submit Solusi
               </button>
             </div>
           </section>

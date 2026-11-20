@@ -1,0 +1,351 @@
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;700&display=swap");
+
+.mod-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(180deg, #3d6791 0%, #2f4a72 45%, #222c40 100%);
+  font-family: "Space Grotesk", "Segoe UI", Arial, sans-serif;
+  color: #fff;
+}
+
+.mod-page *,
+.mod-page *::before,
+.mod-page *::after {
+  box-sizing: border-box;
+}
+
+.mod-main {
+  flex: 1;
+  padding: 20px 28px 48px;
+}
+
+.mod-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 14px;
+  font-size: 20px;
+  font-weight: 500;
+  color: #fff;
+  text-decoration: none;
+}
+
+.mod-back:hover {
+  text-decoration: underline;
+}
+
+.mod-wrap {
+  width: min(100%, 700px);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* ---------- Header modul ---------- */
+.mod-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.mod-icon {
+  flex: none;
+  width: 56px;
+  height: 56px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #283147;
+  color: #fff;
+}
+
+.mod-head-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.mod-name {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.mod-desc {
+  margin: 1px 0 0;
+  font-size: 10px;
+  color: #dbe4f5;
+}
+
+.mod-progress {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.mod-bar {
+  flex: 1;
+  height: 7px;
+  background: #a8cdf4;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.mod-bar span {
+  display: block;
+  height: 100%;
+  background: #1c2640;
+  border-radius: 999px;
+}
+
+.mod-count {
+  font-size: 10px;
+  white-space: nowrap;
+}
+
+/* ---------- Tab ---------- */
+.mod-tabs {
+  display: flex;
+  gap: 18px;
+}
+
+.mod-tabs button {
+  padding: 4px 4px 3px;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: none;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  color: #c3cde0;
+  cursor: pointer;
+}
+
+.mod-tabs button:hover {
+  color: #fff;
+}
+
+.mod-tabs button.is-active {
+  border-bottom-color: #fff;
+  color: #fff;
+}
+
+/* ---------- Layout materi ---------- */
+.mod-layout {
+  display: grid;
+  grid-template-columns: minmax(150px, 28%) 1fr;
+  gap: 14px;
+  align-items: stretch;
+}
+
+.mod-side {
+  padding: 10px;
+  background: #dce1f8;
+  border-radius: 6px;
+  color: #1b2438;
+}
+
+.mod-side ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.mod-side button {
+  width: 100%;
+  padding: 10px 10px;
+  border: 0;
+  border-radius: 4px;
+  background: none;
+  text-align: left;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  color: #1b2438;
+  cursor: pointer;
+}
+
+.mod-side button:hover {
+  background: rgba(27, 36, 56, 0.08);
+}
+
+.mod-side button.is-active {
+  background: #5f6c9b;
+  color: #fff;
+}
+
+/* ---------- Isi materi / quiz ---------- */
+.mod-content {
+  min-height: 340px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  background: #dce1f8;
+  border-radius: 6px;
+  color: #1b2438;
+}
+
+.mod-content-title {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+  color: #3b1c12;
+}
+
+.mod-content-desc {
+  margin: 4px 0 0;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.mod-code-label {
+  margin: 22px 0 6px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.mod-code {
+  min-height: 96px;
+  margin: 0 0 16px;
+  padding: 12px;
+  overflow: auto;
+  background: #1c2640;
+  border-radius: 6px;
+  color: #e6edf7;
+  font-family: "JetBrains Mono", ui-monospace, Consolas, monospace;
+  font-size: 11px;
+  line-height: 1.6;
+  tab-size: 4;
+}
+
+.mod-next {
+  margin-top: auto;
+  width: 100%;
+  height: 30px;
+  border: 0;
+  border-radius: 4px;
+  background: #1d2233;
+  color: #fff;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.mod-next:hover {
+  background: #2c3550;
+}
+
+/* ---------- Daftar quiz ---------- */
+.mod-quiz-list {
+  margin: 16px 0 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.mod-quiz-list li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 10px;
+  background: #eef1fc;
+  border-radius: 6px;
+  font-size: 12px;
+}
+
+.mod-quiz-no {
+  width: 22px;
+  height: 22px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #283147;
+  font-size: 10px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.mod-quiz-name {
+  flex: 1;
+  font-weight: 500;
+}
+
+.mod-quiz-done {
+  font-size: 10px;
+  font-weight: 700;
+  color: #1c6b3a;
+}
+
+.mod-quiz-go {
+  padding: 5px 12px;
+  border-radius: 4px;
+  background: #1d2233;
+  font-size: 10px;
+  font-weight: 700;
+  color: #fff;
+  text-decoration: none;
+}
+
+.mod-quiz-go:hover {
+  background: #2c3550;
+}
+
+/* ---------- Footer ---------- */
+.mod-footer {
+  padding: 16px;
+  text-align: center;
+  background: #0b1628;
+  font-family: "JetBrains Mono", ui-monospace, Consolas, monospace;
+  font-size: 9px;
+  color: #9fb0c9;
+}
+
+/* ---------- Fokus keyboard ---------- */
+.mod-back:focus-visible,
+.mod-tabs button:focus-visible,
+.mod-side button:focus-visible,
+.mod-next:focus-visible,
+.mod-quiz-go:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+.mod-side button:focus-visible,
+.mod-next:focus-visible,
+.mod-quiz-go:focus-visible {
+  outline-color: #1d2233;
+}
+
+/* ---------- Responsif ---------- */
+@media (max-width: 640px) {
+  .mod-main {
+    padding: 16px 14px 40px;
+  }
+
+  .mod-back {
+    font-size: 17px;
+  }
+
+  .mod-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .mod-content {
+    min-height: 280px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mod-next {
+    transition: none;
+  }
+}

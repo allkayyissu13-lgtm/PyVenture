@@ -87,6 +87,67 @@ type Progress struct {
 	CurrentStage    string `json:"current_stage"` // slug stage berikutnya yang harus dikerjakan ("" jika semua selesai)
 }
 
+type DashboardUser struct {
+	Name             string `json:"name"`
+	Handle           string `json:"handle"`
+	Level            int    `json:"level"`
+	XP               int    `json:"xp"`
+	XPMax            int    `json:"xp_max"`
+	LevelProgressPct int    `json:"level_progress_pct"`
+}
+
+type DashboardStat struct {
+	Label string `json:"label"`
+	Value string `json:"value"`
+	Note  string `json:"note"`
+	Icon  string `json:"icon"`
+	Hot   bool   `json:"hot"`
+}
+
+type DashboardQuest struct {
+	Active        bool   `json:"active"`
+	Tag           string `json:"tag"`
+	TrackTitle    string `json:"track_title"`
+	StageTitle    string `json:"stage_title"`
+	StageSlug     string `json:"stage_slug"`
+	ExerciseTitle string `json:"exercise_title"`
+	ExerciseSlug  string `json:"exercise_slug"`
+	Link          string `json:"link"`
+}
+
+type DashboardBadge struct {
+	Level    int    `json:"level"`
+	Name     string `json:"name"`
+	XP       string `json:"xp"`
+	Tone     string `json:"tone"`
+	Icon     string `json:"icon"`
+	Done     bool   `json:"done"`
+	Hot      bool   `json:"hot,omitempty"`
+	Progress int    `json:"progress,omitempty"`
+	Total    int    `json:"total,omitempty"`
+}
+
+type LeaderboardItem struct {
+	Rank int    `json:"rank"`
+	Name string `json:"name"`
+	XP   string `json:"xp"`
+	Me   bool   `json:"me,omitempty"`
+	Note string `json:"note,omitempty"`
+}
+
+type DashboardLeaderboard struct {
+	Podium  []LeaderboardItem `json:"podium"`
+	Ranking []LeaderboardItem `json:"ranking"`
+}
+
+type DashboardData struct {
+	User        DashboardUser        `json:"user"`
+	Stats       []DashboardStat      `json:"stats"`
+	Quest       DashboardQuest       `json:"quest"`
+	Badges      []DashboardBadge     `json:"badges"`
+	Leaderboard DashboardLeaderboard `json:"leaderboard"`
+}
+
 // GroupByLevel mengelompokkan stage (yang sudah terurut) menjadi level.
 // Status level: completed jika semua stage selesai, locked jika stage
 // pertamanya terkunci, selain itu unlocked.

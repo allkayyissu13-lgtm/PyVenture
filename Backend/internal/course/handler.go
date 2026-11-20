@@ -21,6 +21,7 @@ func (h *Handler) Routes(mux *http.ServeMux, protect func(http.Handler) http.Han
 	mux.Handle("PUT /api/sections/{id}/note", protect(http.HandlerFunc(h.SaveNote)))
 	mux.Handle("POST /api/sections/{id}/complete", protect(http.HandlerFunc(h.Complete)))
 	mux.Handle("GET /api/me/progress", protect(http.HandlerFunc(h.Progress)))
+	mux.Handle("GET /api/me/dashboard", protect(http.HandlerFunc(h.Dashboard)))
 }
 
 // Peta belajar (wireframe: Level 1-4 + node stage).
@@ -175,4 +176,18 @@ func (h *Handler) Progress(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	httpx.JSON(w, http.StatusOK, p)
+}
+
+// Ringkasan lengkap untuk tampilan dashboard utama user.
+func (h *Handler) Dashboard(w http.ResponseWriter, r *http.Request) {
+	d, err := h.Repo.Dashboard(r.Context(), auth.UserID(r.Context()))
+	if errors.Is(err, ErrNotFound) {
+		httpx.Error(w, http.StatusNotFound, "user tidak ditemukan")
+		return
+	}
+	if err != nil {
+		httpx.Error(w, http.StatusInternalServerError, "gagal mengambil data dashboard")
+		return
+	}
+	httpx.JSON(w, http.StatusOK, d)
 }
