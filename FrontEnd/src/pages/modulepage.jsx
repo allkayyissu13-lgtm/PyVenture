@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Link, Navigate, useParams } from "react-router-dom";
 import Navbar from "../components/Navbar.jsx";
-import { MODULES, getProgress } from "../data/modules.js";
+import { MODULES } from "../data/modules.js";
+import { getProgress, getSolvedIds, isUnlocked } from "../lib/progress.js";
 import "./modulepage.css";
 
 const DocIcon = () => (
@@ -22,7 +23,11 @@ function ModuleView({ mod }) {
   const [index, setIndex] = useState(0);
 
   const total = mod.quiz.length;
+  const solvedIds = getSolvedIds(mod.id);
+  const solved = solvedIds.filter((id) => mod.quiz.some((q) => q.id === id)).length;
   const pct = getProgress(mod);
+
+  const hasMateri = mod.materi.length > 0;
   const current = mod.materi[index];
   const isLast = index === mod.materi.length - 1;
 
@@ -58,12 +63,12 @@ function ModuleView({ mod }) {
                   aria-valuenow={pct}
                   aria-valuemin="0"
                   aria-valuemax="100"
-                  aria-label={`Progres ${mod.title}`}
+                  aria-label={"Progres " + mod.title}
                 >
-                  <span style={{ width: `${pct}%` }} />
+                  <span style={{ width: pct + "%" }} />
                 </div>
                 <span className="mod-count">
-                  {mod.solved}/{total} soal selesai
+                  {solved}/{total} soal selesai
                 </span>
               </div>
             </div>
@@ -95,44 +100,51 @@ function ModuleView({ mod }) {
             </button>
           </div>
 
-          <div id="mod-panel" role="tabpanel" aria-labelledby={`mod-tab-${tab}`}>
+          <div id="mod-panel" role="tabpanel" aria-labelledby={"mod-tab-" + tab}>
             {tab === "materi" ? (
-              <div className="mod-layout">
-                {/* Daftar materi */}
-                <nav className="mod-side" aria-label="Daftar materi">
-                  <ul>
-                    {mod.materi.map((m, i) => (
-                      <li key={m.title}>
-                        <button
-                          type="button"
-                          className={i === index ? "is-active" : ""}
-                          aria-current={i === index ? "true" : undefined}
-                          onClick={() => setIndex(i)}
-                        >
-                          {i + 1}. {m.title}
-                        </button>
-                      </li>
-                    ))}
-                  </ul>
-                </nav>
+              hasMateri ? (
+                <div className="mod-layout">
+                  {/* Daftar materi */}
+                  <nav className="mod-side" aria-label="Daftar materi">
+                    <ul>
+                      {mod.materi.map((m, i) => (
+                        <li key={i}>
+                          <button
+                            type="button"
+                            className={i === index ? "is-active" : ""}
+                            aria-current={i === index ? "true" : undefined}
+                            onClick={() => setIndex(i)}
+                          >
+                            {i + 1}. {m.title}
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  </nav>
 
-                {/* Isi materi */}
-                <article className="mod-content">
-                  <h2 className="mod-content-title">
-                    {index + 1}. {current.title}
-                  </h2>
-                  <p className="mod-content-desc">{current.desc}</p>
+                  {/* Isi materi */}
+                  <article className="mod-content">
+                    <h2 className="mod-content-title">
+                      {index + 1}. {current.title}
+                    </h2>
+                    <p className="mod-content-desc">{current.desc}</p>
 
-                  <h3 className="mod-code-label">Contoh Kode</h3>
-                  <pre className="mod-code">
-                    <code>{current.code}</code>
-                  </pre>
+                    <h3 className="mod-code-label">Contoh Kode</h3>
+                    <pre className="mod-code">
+                      <code>{current.code}</code>
+                    </pre>
 
-                  <button type="button" className="mod-next" onClick={goNext}>
-                    {isLast ? "Mulai Quiz" : "Selanjutnya"} &gt;
-                  </button>
-                </article>
-              </div>
+                    <button type="button" className="mod-next" onClick={goNext}>
+                      {isLast ? "Mulai Quiz" : "Selanjutnya"} &gt;
+                    </button>
+                  </article>
+                </div>
+              ) : (
+                <section className="mod-content" aria-label="Materi">
+                  <h2 className="mod-content-title">Materi belum tersedia</h2>
+                  <p className="mod-content-desc">Materi untuk modul ini sedang disiapkan.</p>
+                </section>
+              )
             ) : (
               <section className="mod-content mod-quiz" aria-label="Daftar soal quiz">
                 <h2 className="mod-content-title">Quiz {mod.title}</h2>
@@ -142,15 +154,15 @@ function ModuleView({ mod }) {
 
                 <ol className="mod-quiz-list">
                   {mod.quiz.map((q, i) => {
-                    const done = i < mod.solved;
+                    const done = solvedIds.includes(q.id);
                     return (
-                      <li key={q}>
+                      <li key={q.id}>
                         <span className="mod-quiz-no">{i + 1}</span>
-                        <span className="mod-quiz-name">{q}</span>
+                        <span className="mod-quiz-name">{q.title}</span>
                         {done ? (
                           <span className="mod-quiz-done">Selesai</span>
                         ) : (
-                          <Link to="/quest" className="mod-quiz-go">
+                          <Link to={"/quest/" + mod.id + "/" + q.id} className="mod-quiz-go">
                             Kerjakan
                           </Link>
                         )}
@@ -173,11 +185,11 @@ function ModuleView({ mod }) {
 
 export default function ModulePage() {
   const { id } = useParams();
-  const mod = MODULES.find((m) => String(m.id) === id);
+  const index = MODULES.findIndex((m) => String(m.id) === id);
 
   // Modul tidak ada atau masih terkunci: kembali ke daftar modul
-  if (!mod || mod.locked) return <Navigate to="/modul" replace />;
+  if (index < 0 || !isUnlocked(MODULES, index)) return <Navigate to="/modul" replace />;
 
   // key membuat tab dan materi terpilih kembali ke awal saat pindah modul
-  return <ModuleView key={mod.id} mod={mod} />;
+  return <ModuleView key={MODULES[index].id} mod={MODULES[index]} />;
 }

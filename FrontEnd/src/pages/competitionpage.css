@@ -1,36 +1,321 @@
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;700&display=swap");
+
 .comp-page {
+  --k-ink: #e8eef8;
+  --k-muted: #9db0cc;
+  --k-dim: #6f819e;
+  --k-line: rgba(140, 175, 225, 0.16);
+  --k-ice: #7fb5e8;
+  --k-amber: #ffb23e;
+  --k-amber-2: #ffd27a;
+  --k-green: #3be08f;
+  --k-sans: "Space Grotesk", "Segoe UI", Arial, sans-serif;
+  --k-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: linear-gradient(180deg, #3d6791 0%, #2f4a72 45%, #222c40 100%);
-  font-family: "Space Grotesk", "Segoe UI", Arial, sans-serif;
-  color: #fff;
+  background: linear-gradient(180deg, #3f6c97 0%, #2b4b74 45%, #1a2b47 100%);
+  font-family: var(--k-sans);
+  color: var(--k-ink);
+}
+
+.comp-page *,
+.comp-page *::before,
+.comp-page *::after {
+  box-sizing: border-box;
 }
 
 .comp-main {
   flex: 1;
-  width: min(100%, 1100px);
+  width: min(100%, 1000px);
   margin: 0 auto;
-  padding: 22px 28px 48px;
+  padding: 32px 16px 56px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
 }
 
-.comp-title {
-  margin: 0 0 8px;
-  font-size: 24px;
-  font-weight: 500;
+/* ---------- Hero ---------- */
+.comp-hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 24px 26px;
+  background: #000;
+  border: 1px solid var(--k-line);
+  border-radius: 12px;
 }
 
-.comp-note {
-  margin: 0;
+.comp-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 9px;
+  background: rgba(127, 181, 232, 0.12);
+  border: 1px solid rgba(127, 181, 232, 0.28);
+  border-radius: 999px;
+  font-family: var(--k-mono);
+  font-size: 8px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--k-ice);
+}
+
+.comp-badge i {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--k-ice);
+}
+
+.comp-hero h1 {
+  max-width: 14em;
+  margin: 12px 0 0;
+  font-size: clamp(1.5rem, 3.2vw, 2rem);
+  font-weight: 700;
+  line-height: 1.15;
+  color: #fff;
+}
+
+.comp-hero p {
+  max-width: 44ch;
+  margin: 8px 0 0;
+  font-size: 12px;
+  line-height: 1.55;
+  color: #c3d0e6;
+}
+
+.comp-new {
+  flex: none;
+  padding: 12px 22px;
+  background: #3d5a99;
+  border: 0;
+  border-radius: 999px;
+  font-family: var(--k-mono);
   font-size: 13px;
-  color: #dbe4f5;
+  font-weight: 700;
+  color: #fff;
+  cursor: pointer;
+  transition: filter 0.15s ease, transform 0.1s ease;
 }
 
+.comp-new:hover {
+  filter: brightness(1.15);
+}
+
+.comp-new:active {
+  transform: translateY(1px);
+}
+
+/* ---------- Kartu kompetisi ---------- */
+.comp-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.55fr 1fr;
+  gap: 20px;
+  padding: 24px 22px 20px;
+  overflow: hidden;
+  background: #0b1322;
+  border: 1px solid var(--k-line);
+  border-radius: 12px;
+}
+
+.comp-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #35c8e8 0%, #35c8e8 55%, var(--k-amber) 100%);
+}
+
+.comp-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.comp-live {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 9px;
+  background: rgba(59, 224, 143, 0.12);
+  border: 1px solid rgba(59, 224, 143, 0.28);
+  border-radius: 999px;
+  font-family: var(--k-mono);
+  font-size: 8px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--k-green);
+}
+
+.comp-live i {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.comp-live.is-ended {
+  background: rgba(157, 176, 204, 0.12);
+  border-color: rgba(157, 176, 204, 0.28);
+  color: var(--k-muted);
+}
+
+.comp-private {
+  padding: 3px 9px;
+  border: 1px solid var(--k-line);
+  border-radius: 999px;
+  font-family: var(--k-mono);
+  font-size: 8px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--k-amber);
+}
+
+.comp-name {
+  margin: 12px 0 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.comp-desc {
+  margin: 4px 0 0;
+  font-size: 12px;
+  color: var(--k-muted);
+}
+
+.comp-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px 36px;
+  margin-top: 16px;
+  padding: 12px 16px;
+  background: #0e1b30;
+  border: 1px solid var(--k-line);
+  border-radius: 8px;
+}
+
+.comp-stats > div {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.comp-stat-label {
+  font-family: var(--k-mono);
+  font-size: 8px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--k-dim);
+}
+
+.comp-timer {
+  font-family: var(--k-mono);
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--k-amber);
+}
+
+.comp-timer small {
+  font-size: 8px;
+  font-weight: 400;
+  color: var(--k-dim);
+}
+
+.comp-prize {
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: #fff;
+}
+
+.comp-prize-note {
+  font-family: var(--k-mono);
+  font-size: 9px;
+  color: var(--k-amber);
+}
+
+.comp-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.comp-btn-amber,
+.comp-btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 34px;
+  padding: 0 16px;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: filter 0.15s ease, transform 0.1s ease;
+}
+
+.comp-btn-amber {
+  background: linear-gradient(90deg, var(--k-amber), var(--k-amber-2));
+  color: #2a1500;
+}
+
+.comp-btn-ghost {
+  background: #1a2740;
+  border: 1px solid var(--k-line);
+  color: #fff;
+}
+
+.comp-btn-amber:hover,
+.comp-btn-ghost:hover {
+  filter: brightness(1.1);
+}
+
+.comp-btn-amber:active,
+.comp-btn-ghost:active {
+  transform: translateY(1px);
+}
+
+/* ---------- Footer ---------- */
 .comp-footer {
   padding: 16px;
   text-align: center;
-  background: #0b1628;
-  font-family: "JetBrains Mono", ui-monospace, Consolas, monospace;
+  background: #09121f;
+  font-family: var(--k-mono);
   font-size: 9px;
-  color: #9fb0c9;
+  color: var(--k-muted);
+}
+
+.comp-new:focus-visible,
+.comp-btn-amber:focus-visible,
+.comp-btn-ghost:focus-visible {
+  outline: 2px solid var(--k-ice);
+  outline-offset: 3px;
+}
+
+@media (max-width: 860px) {
+  .comp-hero {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .comp-card {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .comp-new,
+  .comp-btn-amber,
+  .comp-btn-ghost {
+    transition: none;
+  }
 }

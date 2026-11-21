@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar.jsx";
-import { MODULES, getProgress } from "../data/modules.js";
+import { MODULES } from "../data/modules.js";
+import { getProgress, getSolvedCount, isUnlocked } from "../lib/progress.js";
 import "./learningpage.css";
 
 const DocIcon = () => (
